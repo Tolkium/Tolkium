@@ -32,7 +32,3 @@
 <p align="center">
   <img src="https://streak-stats.demolab.com?user=Tolkium&theme=radical&hide_border=true&background=0b0c15" alt="GitHub streak" width="80%">
 </p>
-
-### 🏆 GitHub Trophies
-
-<img src="./trophies.svg" alt="GitHub trophies" width="100%">
