@@ -1,0 +1,40 @@
+{
+  "header": "Tolkium/Simon",
+  "birthday": "",
+  "sections": [
+    {
+      "title": null,
+      "rows": [
+        ["OS", "Windows 11, Omarchy, Android 17"],
+        ["Uptime", "{account_age}"],
+        ["Kernel", "Fullstack/IoT Developer"],
+        ["IDE", "VSCode 1.141, PlatformIO, Claude Code"]
+      ]
+    },
+    {
+      "title": null,
+      "rows": [
+        ["Languages.Programming", "{langs_programming}"],
+        ["Languages.Computer", "{langs_computer}"],
+        ["Languages.Real", "Slovak, English"]
+      ]
+    },
+    {
+      "title": null,
+      "rows": [
+        ["Hobbies.Hardware", "ESP32, Arduino, Raspberry Pi, Ham Radio"],
+        ["Hobbies.Making", "3D Printing, 3D Modeling, Prototyping"],
+        ["Hobbies.Other", "Scouting, Anime, Reading"]
+      ]
+    },
+    {
+      "title": "Contact",
+      "rows": [
+        ["Website", "tolkium.net"],
+        ["Email", "tolkium@gmail.com"],
+        ["LinkedIn", "marek-sipos"],
+        ["Discord", "Tolkium"]
+      ]
+    }
+  ]
+}
