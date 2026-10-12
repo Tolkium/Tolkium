@@ -20,7 +20,7 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           user: Tolkium
-          filename: metrics.svg
+          filename: languages.svg
           template: classic
           config_display: large
           config_timezone: Europe/Bratislava
