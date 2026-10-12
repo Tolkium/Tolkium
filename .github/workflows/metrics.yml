@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: profile-commit
+  cancel-in-progress: false
+
 jobs:
   metrics:
     runs-on: ubuntu-latest
