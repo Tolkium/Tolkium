@@ -18,7 +18,7 @@
 
 ## 🧬 Activity
 
-<img src="./metrics.svg" alt="Metrics" width="100%">
+<img src="./metrics.svg?v=2" alt="Metrics" width="100%">
 
 ## 📊 GitHub Analytics
 
