@@ -34,6 +34,10 @@
   <a href="https://www.youtube.com/@Fireship"><img src="https://img.shields.io/badge/Fireship-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Fireship"></a>
   <a href="https://www.youtube.com/@CodeBullet"><img src="https://img.shields.io/badge/Code_Bullet-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Code Bullet"></a>
   <a href="https://www.youtube.com/@willjum"><img src="https://img.shields.io/badge/Willjum-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Willjum"></a>
+  <a href="https://www.youtube.com/@GamerMeld"><img src="https://img.shields.io/badge/Gamer_Meld-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Gamer Meld"></a>
+  <a href="https://www.youtube.com/@EEVblog"><img src="https://img.shields.io/badge/EEVblog-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="EEVblog"></a>
+  <a href="https://www.youtube.com/@JerryRigEverything"><img src="https://img.shields.io/badge/JerryRigEverything-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="JerryRigEverything"></a>
+  <a href="https://www.youtube.com/@davepl"><img src="https://img.shields.io/badge/Dave%27s_Attic-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Dave's Attic"></a>
 </p>
 
 ### 🎮 Games
