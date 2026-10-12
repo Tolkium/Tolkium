@@ -22,15 +22,26 @@
 
 <img src="./languages.svg" alt="Most used languages" width="100%">
 
-## 📊 GitHub Analytics
+## 🎧 Hobbies
+
+### 📺 Favorite Creators
+
+<p align="center">
+  <a href="https://www.youtube.com/@LinusTechTips"><img src="https://img.shields.io/badge/Linus_Tech_Tips-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Linus Tech Tips"></a>
+  <a href="https://www.youtube.com/@t3dotgg"><img src="https://img.shields.io/badge/Theo-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Theo"></a>
+  <a href="https://www.youtube.com/@LowLevelTV"><img src="https://img.shields.io/badge/Low_Level-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Low Level"></a>
+  <a href="https://www.youtube.com/@ThePrimeTimeagen"><img src="https://img.shields.io/badge/ThePrimeTime-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="ThePrimeTime"></a>
+  <a href="https://www.youtube.com/@Fireship"><img src="https://img.shields.io/badge/Fireship-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Fireship"></a>
+  <a href="https://www.youtube.com/@CodeBullet"><img src="https://img.shields.io/badge/Code_Bullet-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Code Bullet"></a>
+  <a href="https://www.youtube.com/@willjum"><img src="https://img.shields.io/badge/Willjum-0b0c15?style=for-the-badge&logo=youtube&logoColor=FF0000" alt="Willjum"></a>
+</p>
+
+### 🎮 Games
 
 <table>
   <tr>
-    <td width="50%"><img src="https://github-readme-stats.vercel.app/api?username=Tolkium&show_icons=true&count_private=true&include_all_commits=true&theme=radical&hide_border=true&bg_color=0b0c15" alt="GitHub stats" width="100%"></td>
-    <td width="50%"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Tolkium&layout=compact&langs_count=8&theme=radical&hide_border=true&bg_color=0b0c15" alt="Top languages" width="100%"></td>
+    <td width="33%" align="center"><a href="https://store.steampowered.com/app/2073850/"><img src="./assets/games/the-finals.jpg" alt="THE FINALS" width="100%"></a><br><b>THE FINALS</b></td>
+    <td width="33%" align="center"><a href="https://store.steampowered.com/app/1867240/"><img src="./assets/games/wardogs.jpg" alt="WARDOGS" width="100%"></a><br><b>WARDOGS</b></td>
+    <td width="33%" align="center"><a href="https://store.steampowered.com/app/1623730/"><img src="./assets/games/palworld.jpg" alt="Palworld" width="100%"></a><br><b>Palworld</b></td>
   </tr>
 </table>
-
-<p align="center">
-  <img src="https://streak-stats.demolab.com?user=Tolkium&theme=radical&hide_border=true&background=0b0c15" alt="GitHub streak" width="80%">
-</p>
