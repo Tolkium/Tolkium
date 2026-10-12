@@ -34,12 +34,12 @@ THEMES = {
     "dark": {
         "bg": "#0b0c15", "border": "#ff2a6d", "text": "#f0f3f8", "dim": "#4b5068",
         "key": "#05d9e8", "title": "#ff2a6d", "num": "#fcee0a", "add": "#39ff88", "del": "#ff3864",
-        "art": ("#05d9e8", "#d300c5"),
+        "art": ("#f0f3f8", "#f0f3f8"),
     },
     "light": {
         "bg": "#f6f8fa", "border": "#d300c5", "text": "#1f2328", "dim": "#a0a7b4",
         "key": "#0089a8", "title": "#c2185b", "num": "#9a6700", "add": "#1a7f37", "del": "#cf222e",
-        "art": ("#0089a8", "#a0009a"),
+        "art": ("#1f2328", "#1f2328"),
     },
 }
 
