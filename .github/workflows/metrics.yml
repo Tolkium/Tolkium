@@ -25,10 +25,6 @@ jobs:
           config_display: large
           config_timezone: Europe/Bratislava
           base: header
-          extras_css: |
-            svg[viewBox="0,0 480,270"] { width: 480px; height: 270px; }
-          plugin_isocalendar: yes
-          plugin_isocalendar_duration: full-year
           plugin_languages: yes
           plugin_languages_indepth: yes
           plugin_languages_analysis_timeout: 15
