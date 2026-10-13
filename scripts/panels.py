@@ -6,7 +6,7 @@ Outputs:
   assets/line.svg                - thin pink line used under section headings
   profile-picture/avatar-pink-ring.png - original avatar with a thin pink ring (upload manually)
 
-Usage: python scripts/panels.py [--no-ring]
+Usage: python scripts/panels.py [--no-ring | --split]
 """
 import sys
 from pathlib import Path
@@ -62,7 +62,10 @@ def grid(items, folder, cols, out, ring, shape, cell=(130, 104), size=64):
     """Icons + names on a transparent background (no panel, no frame); one image per GitHub theme."""
     rows = (len(items) + cols - 1) // cols
     w, h = cols * cell[0], rows * cell[1]
-    icons = [icon(folder, key, size, ring, shape) for key, _ in items]
+    # ring: True / False, or "split" = left half of the columns ringed, right half plain (side-by-side comparison)
+    half = (cols + 1) // 2
+    icons = [icon(folder, key, size, (i % cols) < half if ring == "split" else ring, shape)
+             for i, (key, _) in enumerate(items)]
     font = ImageFont.truetype(FONT, 15 * S)
     for theme, text in THEMES.items():
         img = Image.new("RGBA", (w * S, h * S), (0, 0, 0, 0))
@@ -108,7 +111,7 @@ def ring_avatar(size=640, ring=4, gap=6):
 
 
 def main():
-    ring = "--no-ring" not in sys.argv
+    ring = "split" if "--split" in sys.argv else "--no-ring" not in sys.argv
     grid(CREATORS, "creators", cols=6, out="creators", ring=ring, shape="circle")
     grid(GAMES, "games", cols=3, out="games", ring=ring, shape="rounded")
     line_svg()
