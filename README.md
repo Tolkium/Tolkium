@@ -9,10 +9,10 @@
 
 <table>
   <tr>
-    <td width="25%"><a href="https://github.com/Tolkium/QRHant"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Tolkium&repo=QRHant&theme=radical&hide_border=true&bg_color=0b0c15" alt="QRHant"></a></td>
-    <td width="25%"><a href="https://github.com/Tolkium/manga-reader"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Tolkium&repo=manga-reader&theme=radical&hide_border=true&bg_color=0b0c15" alt="manga-reader"></a></td>
-    <td width="25%"><a href="https://github.com/Tolkium/Antenna-Field-Configurator"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Tolkium&repo=Antenna-Field-Configurator&theme=radical&hide_border=true&bg_color=0b0c15" alt="Antenna-Field-Configurator"></a></td>
-    <td width="25%"><a href="https://github.com/Tolkium/hmstrsoc"><img src="https://github-readme-stats.vercel.app/api/pin/?username=Tolkium&repo=hmstrsoc&theme=radical&hide_border=true&bg_color=0b0c15" alt="hmstrsoc"></a></td>
+    <td width="25%"><a href="https://github.com/Tolkium/QRHant"><img src="./assets/projects/QRHant.svg" alt="QRHant" width="100%"></a></td>
+    <td width="25%"><a href="https://github.com/Tolkium/manga-reader"><img src="./assets/projects/manga-reader.svg" alt="manga-reader" width="100%"></a></td>
+    <td width="25%"><a href="https://github.com/Tolkium/Antenna-Field-Configurator"><img src="./assets/projects/Antenna-Field-Configurator.svg" alt="Antenna-Field-Configurator" width="100%"></a></td>
+    <td width="25%"><a href="https://github.com/Tolkium/hmstrsoc"><img src="./assets/projects/hmstrsoc.svg" alt="hmstrsoc" width="100%"></a></td>
   </tr>
 </table>
 
