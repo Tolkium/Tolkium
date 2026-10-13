@@ -1,0 +1,43 @@
+/* ==UserStyle==
+@name           GitHub Cyberpunk Borders
+@namespace      tolkium
+@version        1.0.0
+@description     Recolours GitHub's borders/lines in my own browser (cyan + magenta). Local only — visitors see normal GitHub.
+@author         Tolkium
+@preprocessor   default
+@var color accent "Main line colour" #05d9e8
+@var color muted  "Faint line colour" #15323a
+==/UserStyle== */
+
+@-moz-document domain("github.com") {
+  :root {
+    /* Modern Primer border variables */
+    --borderColor-default: /*[[accent]]*/ !important;
+    --borderColor-muted: /*[[muted]]*/ !important;
+    --borderColor-emphasis: /*[[accent]]*/ !important;
+    --borderColor-neutral-muted: /*[[muted]]*/ !important;
+
+    /* Older variable names GitHub still uses in places */
+    --color-border-default: /*[[accent]]*/ !important;
+    --color-border-muted: /*[[muted]]*/ !important;
+    --color-border-subtle: /*[[muted]]*/ !important;
+
+    /* Dividers / underlines under headings and tabs */
+    --borderColor-accent-muted: /*[[accent]]*/ !important;
+  }
+
+  /* A few lines are set with a literal colour instead of a variable; catch the common ones. */
+  .Box,
+  .Box-row + .Box-row,
+  .border,
+  .border-top,
+  .border-bottom,
+  .border-left,
+  .border-right,
+  .markdown-body hr,
+  .UnderlineNav,
+  .color-border-muted,
+  .color-border-default {
+    border-color: /*[[accent]]*/ !important;
+  }
+}

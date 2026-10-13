@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="18" viewBox="0 0 900 18" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="line" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="0">
+      <stop offset="0" stop-color="#05d9e8" stop-opacity="0"/>
+      <stop offset="0.15" stop-color="#05d9e8"/>
+      <stop offset="0.5" stop-color="#d300c5"/>
+      <stop offset="0.85" stop-color="#fcee0a"/>
+      <stop offset="1" stop-color="#fcee0a" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      @keyframes slide { to { transform: translateX(120px); } }
+      .spark { animation: slide 2s linear infinite; }
+    </style>
+  </defs>
+  <!-- soft glow: a thicker, faint copy of the bar -->
+  <rect x="0" y="7" width="900" height="4" rx="2" fill="url(#line)" opacity="0.35"/>
+  <!-- the crisp neon bar -->
+  <rect x="0" y="8" width="900" height="2" fill="url(#line)"/>
+  <!-- a bright spark sliding along the line -->
+  <rect x="-120" y="7.5" width="90" height="3" rx="1.5" fill="#ffffff" opacity="0.65" class="spark"/>
+</svg>

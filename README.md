@@ -5,6 +5,8 @@
   </picture>
 </a>
 
+<img src="./assets/divider.svg" width="100%" alt="">
+
 ## ⚡ Featured Projects
 
 <table>
@@ -16,11 +18,15 @@
   </tr>
 </table>
 
+<img src="./assets/divider.svg" width="100%" alt="">
+
 ## 🧬 Activity
 
 <img src="./calendar.svg" alt="Contributions calendar" width="100%">
 
 <img src="./languages.svg" alt="Most used languages" width="100%">
+
+<img src="./assets/divider.svg" width="100%" alt="">
 
 ## 🎧 Hobbies
 
