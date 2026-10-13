@@ -53,6 +53,7 @@ ICONS = {
     "Ollama": ("ollama", "ollama"), "PyTorch": ("pytorch", "pytorch"), "TensorFlow": ("tensorflow", "tensorflow"),
     "OpenCV": ("opencv", "opencv"), "Hugging Face": (None, "huggingface"), "Pandas / NumPy": ("pandas", "pandas"),
     "Solidity": ("solidity", "solidity"), "RxJS": ("rxjs", "reactivex"), "WordPress": (None, "wordpress"),
+    "Jira": ("jira", "jira"), "Notion": ("notion", "notion"), "CUDA": (None, "nvidia"),
     "Jest": ("jest", "jest"), "Vitest": ("vitest", "vitest"), "Postman": ("postman", "postman"),
     "Git": ("git", "git"), "GitHub": ("github", "github"), "GitHub Actions": ("githubactions", "githubactions"),
     "GitLab": ("gitlab", "gitlab"), "Slack": ("slack", "slack"), "Microsoft Teams": (None, None),

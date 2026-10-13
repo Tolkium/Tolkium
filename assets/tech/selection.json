@@ -112,7 +112,8 @@
    "TensorFlow",
    "OpenCV",
    "Hugging Face",
-   "Pandas / NumPy"
+   "Pandas / NumPy",
+   "CUDA"
   ]
  ],
  [
@@ -130,6 +131,8 @@
    "GitHub",
    "GitHub Actions",
    "GitLab",
+   "Jira",
+   "Notion",
    "Slack",
    "Microsoft Teams",
    "VS Code",
