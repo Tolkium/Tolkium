@@ -2,7 +2,7 @@
 
 Reads the ticked items from tech-checklist.md (falls back to assets/tech/selection.json),
 fetches icons from Devicon (MIT) or Simple Icons (CC0) into assets/tech/src/, and renders
-assets/tech/<category>-{dark,light}.png. Prints the README block to paste.
+assets/tech/stack-{dark,light}.png: one tight grid of icons, no names.
 
 Usage: python scripts/tech.py
 """
@@ -166,20 +166,36 @@ def render(items, slug):
     return w
 
 
+def render_flat(items, icon=30, gap=12, cols=21):
+    """All icons in one tight grid, no names, no categories (names live in the alt text)."""
+    size = icon * S
+    step = icon + gap
+    rows = (len(items) + cols - 1) // cols
+    w, h = min(len(items), cols) * step - gap, rows * step - gap
+    icons = [raster(svg, size) if (svg := svg_for(n)) else tile(n, size) for n in items]
+    for theme in THEMES:
+        img = Image.new("RGBA", (w * S, h * S), (0, 0, 0, 0))
+        for i, ic in enumerate(icons):
+            r, c = divmod(i, cols)
+            img.alpha_composite(for_theme(ic, theme), (c * step * S, r * step * S))
+        img.save(OUT / f"stack-{theme}.png", optimize=True)
+
+
 def main():
     SRC.mkdir(parents=True, exist_ok=True)
-    missing = []
-    block = []
-    for title, items in selection():
-        slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
-        render(items, slug)
-        missing += [n for n in items if not svg_for(n)]
-        pct = round(100 * min(len(items), COLS) / COLS)
-        block.append(f"<b>{title}</b>\n\n<picture>\n  <source media=\"(prefers-color-scheme: dark)\" "
-                     f"srcset=\"./assets/tech/{slug}-dark.png\">\n  <img src=\"./assets/tech/{slug}-light.png\" "
-                     f"alt=\"{title}: {', '.join(items)}\" width=\"{pct}%\">\n</picture>\n")
-    (OUT / "readme-block.md").write_text("\n".join(block), encoding="utf-8")
-    print("no icon found (initials tile used):", missing)
+    items, seen = [], set()
+    for _, group in selection():
+        for n in group:
+            key = svg_for(n) or n  # identical logos (Docker / Docker Compose, ...) are shown once
+            if key not in seen:
+                seen.add(key)
+                items.append(n)
+    render_flat(items)
+    print("icons:", len(items), "| no icon found (initials tile used):", [n for n in items if not svg_for(n)])
+    (OUT / "readme-block.md").write_text(
+        '<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech/stack-dark.png">\n'
+        f'  <img src="./assets/tech/stack-light.png" alt="Tech stack: {", ".join(items)}" width="100%">\n</picture>\n',
+        encoding="utf-8")
 
 
 if __name__ == "__main__":
