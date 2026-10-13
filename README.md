@@ -29,20 +29,14 @@
 
 ### 🎧 Hobbies<br><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/line-dark.svg"><img src="./assets/line-light.svg" width="100%" alt=""></picture>
 
-<b>📺 Favorite Creators</b>
-
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/creators-dark.png">
-    <img src="./assets/creators-light.png" alt="Favorite creators: Dave's Attic, Low Level, ThePrimeTime, Theo, Fireship, Code Bullet, Willjum, Gamer Meld, EEVblog, JerryRigEverything, Linus Tech Tips, Mark Rober" width="100%">
+    <img src="./assets/creators-light.png" alt="Favorite creators: Dave's Attic, Low Level, ThePrimeTime, Theo, Fireship, Code Bullet, Willjum, Gamer Meld, EEVblog, JerryRigEverything, Linus Tech Tips, Mark Rober" width="516">
   </picture>
-</p>
-
-<b>🎮 Currently Playing</b>
-
-<p align="center">
+  &emsp;&emsp;
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./assets/games-dark.png">
-    <img src="./assets/games-light.png" alt="Currently playing: THE FINALS, WARDOGS, Palworld" width="50%">
+    <img src="./assets/games-light.png" alt="Currently playing: THE FINALS, WARDOGS, Palworld" width="258">
   </picture>
 </p>

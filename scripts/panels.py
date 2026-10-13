@@ -24,7 +24,7 @@ CREATORS = [
     ("davepl", "Dave's Attic"), ("lowleveltv", "Low Level"), ("theprimetimeagen", "ThePrimeTime"),
     ("t3dotgg", "Theo"), ("fireship", "Fireship"), ("codebullet", "Code Bullet"),
     ("willjum", "Willjum"), ("gamermeld", "Gamer Meld"), ("eevblog", "EEVblog"),
-    ("jerryrigeverything", "JerryRigEverything"), ("linustechtips", "Linus Tech Tips"), ("markrober", "Mark Rober"),
+    ("jerryrigeverything", "JerryRig"), ("linustechtips", "Linus Tech Tips"), ("markrober", "Mark Rober"),
 ]
 GAMES = [("the-finals", "THE FINALS"), ("wardogs", "WARDOGS"), ("palworld", "Palworld")]
 
@@ -58,27 +58,50 @@ def icon(folder, key, size, ring, shape):
     return out.resize((size * S, size * S), Image.LANCZOS)
 
 
-def grid(items, folder, cols, out, ring, shape, cell=(130, 104), size=64):
-    """Icons + names on a transparent background (no panel, no frame); one image per GitHub theme."""
+TITLE_H = 30
+
+
+def title_font():
+    return ImageFont.truetype("C:/Windows/Fonts/segoeuib.ttf", 15 * S)
+
+
+def emoji(ch, px):
+    """Colour emoji rendered from Segoe UI Emoji."""
+    f = ImageFont.truetype("C:/Windows/Fonts/seguiemj.ttf", 109)
+    im = Image.new("RGBA", (160, 160), (0, 0, 0, 0))
+    ImageDraw.Draw(im).text((8, 8), ch, font=f, embedded_color=True)
+    return im.crop(im.getbbox()).resize((px, px), Image.LANCZOS)
+
+
+def grid(items, folder, cols, out, ring, shape, title, cell=(86, 74), size=44, height=None):
+    """Title + icons + names on a transparent background; one image per GitHub theme.
+    Returns the size (1x) so a neighbouring block can be given the same height."""
     rows = (len(items) + cols - 1) // cols
-    w, h = cols * cell[0], rows * cell[1]
+    w, h = cols * cell[0], TITLE_H + rows * cell[1]
+    h = max(h, height or 0)
     # ring: True / False, or "split" = left half of the columns ringed, right half plain (side-by-side comparison)
     half = (cols + 1) // 2
     icons = [icon(folder, key, size, (i % cols) < half if ring == "split" else ring, shape)
              for i, (key, _) in enumerate(items)]
-    font = ImageFont.truetype(FONT, 15 * S)
+    font = ImageFont.truetype(FONT, 12 * S)
+    emo, text_title = title.split(" ", 1)
+    em = emoji(emo, 18 * S)
     for theme, text in THEMES.items():
         img = Image.new("RGBA", (w * S, h * S), (0, 0, 0, 0))
         d = ImageDraw.Draw(img)
+        img.alpha_composite(em, (6 * S, 4 * S))
+        d.text((30 * S, 2 * S), text_title, font=title_font(), fill=text)
         for i, ((_, name), ic) in enumerate(zip(items, icons)):
             r, c = divmod(i, cols)
-            row_n = min(cols, len(items) - r * cols)
-            x0 = (cols - row_n) * cell[0] / 2 + c * cell[0]
-            y0 = r * cell[1]
+            x0, y0 = c * cell[0], TITLE_H + r * cell[1]
             img.alpha_composite(ic, (int((x0 + (cell[0] - size) / 2) * S), int((y0 + 4) * S)))
-            tw = d.textlength(name, font=font)
-            d.text(((x0 + cell[0] / 2) * S - tw / 2, (y0 + size + 12) * S), name, font=font, fill=text)
+            label = name
+            while d.textlength(label, font=font) > (cell[0] - 4) * S:  # keep long names inside the cell
+                label = label[:-2] + "…"
+            tw = d.textlength(label, font=font)
+            d.text(((x0 + cell[0] / 2) * S - tw / 2, (y0 + size + 9) * S), label, font=font, fill=text)
         img.save(ROOT / "assets" / f"{out}-{theme}.png", optimize=True)
+    return w, h
 
 
 def line_svg():
@@ -112,8 +135,9 @@ def ring_avatar(size=640, ring=4, gap=6):
 
 def main():
     ring = "split" if "--split" in sys.argv else "--no-ring" not in sys.argv
-    grid(CREATORS, "creators", cols=6, out="creators", ring=ring, shape="circle")
-    grid(GAMES, "games", cols=3, out="games", ring=ring, shape="rounded")
+    cw, ch = grid(CREATORS, "creators", cols=6, out="creators", ring=ring, shape="circle", title="📺 Favorite Creators")
+    gw, _ = grid(GAMES, "games", cols=3, out="games", ring=ring, shape="rounded", title="🎮 Currently Playing", height=ch)
+    (ROOT / "assets" / "hobbies-size.txt").write_text(f"{cw} {gw}", encoding="utf-8")
     line_svg()
     ring_avatar()
 
