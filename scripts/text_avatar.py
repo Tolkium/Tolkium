@@ -16,12 +16,11 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-SIZE = 2048
+SIZE = 1024
 BG = (11, 12, 21)
 RAMP = " .,:;i1tfLCG08@"
 PHRASE = "TOLKIUM/SIMON "
-GLYPHS = ".,:;i1tfLCG08@#%&$WMBNKRHDQAOE"
-SCALE = 1.1  # font size / line height; >1 lets letters overlap a little so they cover more
+GLYPHS = ".:-=+*ilt1LCGO08BNMWHDRKAE#%"  # no descenders or tall glyphs, so the font can be larger
 SPACING = 1.0  # letter advance as a fraction of the glyph width (tighter = brighter)
 VARIETY = 0.08  # glyphs within this much coverage of the best fit are mixed
 DENSEST = 6  # how many of the densest glyphs to mix where nothing reaches the colour
@@ -39,9 +38,22 @@ def coverage(font, cell_w, cell_h, chars):
     return sorted(out.items(), key=lambda kv: kv[1])
 
 
+def fitting_font(cell_h):
+    """Largest font whose glyphs all fit inside one cell: exactly one character per place."""
+    size = round(cell_h * 1.2)
+    while size > 4:
+        font = ImageFont.truetype(FONT, size)
+        adv = font.getlength("M")
+        boxes = [font.getbbox(ch) for ch in GLYPHS]
+        if all(b[1] >= 0 and b[3] <= cell_h and b[0] >= 0 and b[2] <= adv for b in boxes):
+            return font
+        size -= 1
+    return ImageFont.truetype(FONT, size)
+
+
 def render(style, rows, src=ROOT / "assets" / "avatar.png"):
     cell_h = SIZE / rows
-    font = ImageFont.truetype(FONT, round(cell_h * (SCALE if style == 'match' else 0.95)))
+    font = fitting_font(cell_h) if style == "match" else ImageFont.truetype(FONT, round(cell_h * 0.95))
     cell_w = font.getlength("M") * (SPACING if style == "match" else 1)
     cols = int(SIZE / cell_w)
 
