@@ -156,7 +156,7 @@ def tile(folder, key, name, shape, size=44):
         img.alpha_composite(ic, (int((CELL[0] - size) / 2 * S), 4 * S))
         tw = d.textlength(name, font=font)
         d.text((CELL[0] / 2 * S - tw / 2, (size + 9) * S), name, font=font, fill=text)
-        img.save(ROOT / "assets" / "hobbies" / f"{key}-{theme}.png", optimize=True)
+        img.resize(CELL, Image.LANCZOS).save(ROOT / "assets" / "hobbies" / f"{key}-{theme}.png", optimize=True)
 
 
 def title_img(name, text_title, width):
@@ -166,27 +166,28 @@ def title_img(name, text_title, width):
         img = Image.new("RGBA", (width * S, TITLE_H * S), (0, 0, 0, 0))
         img.alpha_composite(em, (6 * S, 4 * S))
         ImageDraw.Draw(img).text((30 * S, 2 * S), words, font=title_font(), fill=text)
-        img.save(ROOT / "assets" / "hobbies" / f"title-{name}-{theme}.png", optimize=True)
+        img.resize((width, TITLE_H), Image.LANCZOS).save(ROOT / "assets" / "hobbies" / f"title-{name}-{theme}.png", optimize=True)
 
 
-PAGE_W = 1100  # README width on a desktop profile (px); widths are given as % of the page
-GAP = 32  # space between the creators and games blocks (px at desktop size)
+GAP = 32  # space between the creators and games blocks (px)
+WIDE = "(min-width: 1200px)"  # wide enough for creators and games side by side
+NARROW = "(max-width: 1199px)"
 
 
-def pct(px):
-    return f"{px / PAGE_W * 100:.2f}%"
-
-
-def pic(stem, alt, w):
-    # Width in % (no height): rows scale down together on narrow screens instead of wrapping.
-    return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hobbies/{stem}-dark.png">'
-            f'<img src="./assets/hobbies/{stem}-light.png" alt="{alt}" width="{pct(w)}"></picture>')
+def pic(stem, alt, only=None):
+    """Theme-aware image at its natural size. only="wide"/"narrow": on the other screen size it
+    swaps to a 1x1 transparent pixel, so the same README holds both layouts."""
+    hide = {"wide": NARROW, "narrow": WIDE}.get(only)
+    blank = f'<source media="{hide}" srcset="./assets/hobbies/blank.png">' if hide else ""
+    return (f'<picture>{blank}<source media="(prefers-color-scheme: dark)" srcset="./assets/hobbies/{stem}-dark.png">'
+            f'<img src="./assets/hobbies/{stem}-light.png" alt="{alt}"></picture>')
 
 
 def hobbies():
-    """Separate clickable tiles: creators (6 x 2) on the left, games on the right.
-    Every width is a % of the page, so the layout keeps its shape on phones (just smaller)."""
-    (ROOT / "assets" / "hobbies").mkdir(exist_ok=True)
+    """Clickable tiles. Wide screens: creators (6 x 2) left, games right.
+    Narrow screens (phones): creators, then games below."""
+    folder = ROOT / "assets" / "hobbies"
+    folder.mkdir(exist_ok=True)
     for key, name in CREATORS:
         tile("creators", key, name, "circle")
     for key, name in GAMES:
@@ -194,17 +195,19 @@ def hobbies():
     cw, gw = 6 * CELL[0], 3 * CELL[0]
     title_img("creators", "📺 Favorite Creators", cw)
     title_img("games", "🎮 Currently Playing", gw)
-    Image.new("RGBA", (GAP * S, 2), (0, 0, 0, 0)).save(ROOT / "assets" / "hobbies" / "gap.png")
-    gap = f'<img src="./assets/hobbies/gap.png" alt="" width="{pct(GAP)}">'
-    link = lambda key, name: f'<a href="{LINKS[key]}">{pic(key, name, CELL[0])}</a>'
+    Image.new("RGBA", (1, 1), (0, 0, 0, 0)).save(folder / "blank.png")
+    for theme in THEMES:
+        Image.new("RGBA", (GAP, 1), (0, 0, 0, 0)).save(folder / f"gap-{theme}.png")
+    link = lambda key, name, only=None: f'<a href="{LINKS[key]}">{pic(key, name, only)}</a>'
+    games = lambda only: "".join(link(k, n, only) for k, n in GAMES)
     rows = [
-        pic("title-creators", "Favorite Creators", cw) + gap + pic("title-games", "Currently Playing", gw),
-        "".join(link(k, n) for k, n in CREATORS[:6]) + gap + "".join(link(k, n) for k, n in GAMES),
+        pic("title-creators", "Favorite Creators") + pic("gap", "", "wide") + pic("title-games", "Currently Playing", "wide"),
+        "".join(link(k, n) for k, n in CREATORS[:6]) + pic("gap", "", "wide") + games("wide"),
         "".join(link(k, n) for k, n in CREATORS[6:]),
+        pic("title-games", "Currently Playing", "narrow") + games("narrow"),
     ]
     # No whitespace between tags: spaces would push the tiles apart.
-    (ROOT / "assets" / "hobbies" / "readme-block.md").write_text(
-        "<p>\n" + "<br>\n".join(rows) + "\n</p>\n", encoding="utf-8")
+    (folder / "readme-block.md").write_text("<p>\n" + "<br>\n".join(rows) + "\n</p>\n", encoding="utf-8")
 
 
 def main():
