@@ -23,6 +23,7 @@ jobs:
           filename: languages.svg
           template: classic
           config_display: large
+          config_padding: 0, 4
           config_timezone: Europe/Bratislava
           base: ""
           extras_css: |
