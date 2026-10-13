@@ -23,9 +23,9 @@ PHRASE = "TOLKIUM/SIMON "
 GLYPHS = ".:-=+*ilt1LCGO08BNMWHDRKAE#%"  # no descenders or tall glyphs, so the font can be larger
 SPACING = 1.0  # letter advance as a fraction of the glyph width (tighter = brighter)
 VARIETY = 0.08  # glyphs within this much coverage of the best fit are mixed
-LINE_DROP = 0.12  # a pixel this much darker than its cell counts as a line
-LINE_FRAC = 0.08  # line coverage at which the cell fully leans toward the line
-LINE_WEIGHT = 0.9  # how far a line cell leans toward the line colour
+LINE_DROP = 0.3  # a pixel this much darker than its cell is part of an ink line
+LINE_FRAC = 0.05  # line coverage at which a cell becomes fully 'line'
+LINE_INK = 0.35  # darken line colour toward the black ink it really is
 DENSEST = 6  # how many of the densest glyphs to mix where nothing reaches the colour
 FONT = "C:/Windows/Fonts/consolab.ttf"
 
@@ -68,10 +68,15 @@ def sample_keep_lines(src, cols, rows, sub=6):
     w = a[..., 0]
     mean = (rgb * a).sum(2) / np.maximum(w.sum(2, keepdims=True), 1e-6)
     mean_lum = (lum * w).sum(2) / np.maximum(w.sum(2), 1e-6)
-    dark = (lum < mean_lum[..., None] - LINE_DROP) & (w > 0.5)
-    frac = dark.mean(2)
-    dark_rgb = (rgb * dark[..., None]).sum(2) / np.maximum(dark.sum(2, keepdims=True), 1)
-    k = np.clip(frac / LINE_FRAC, 0, 1)[..., None] * LINE_WEIGHT
+    # A cell with even a little of a line takes the line's colour, so thin lines survive
+    # as dark gaps between letters.
+    # Far darker than the rest of its cell: a thin anti-aliased ink line (mouth, brows, outlines).
+    line = (lum < mean_lum[..., None] - LINE_DROP) & (w > 0.5)
+    frac = line.mean(2)
+    dark_rgb = (rgb * line[..., None]).sum(2) / np.maximum(line.sum(2, keepdims=True), 1)
+    k = np.clip(frac / LINE_FRAC, 0, 1)[..., None]
+    # Ink lines are black in the artwork; at this size they only look grey because they're thin.
+    dark_rgb = dark_rgb * LINE_INK
     return mean * (1 - k) + dark_rgb * k, w.mean(2)
 
 
