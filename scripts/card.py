@@ -241,14 +241,16 @@ def shade(colour, theme):
 
 def render(lines, art, theme):
     c = THEMES[theme]
-    pad = 24
+    pad = 14
     art_w = ART_COLS * CHAR_W
     art_fs = art_w / (art["cols"] * 0.6)  # fit the art columns into the art box
     art_lh = art_fs * 1.25
     art_h = len(art["rows"]) * art_lh
-    info_h = len(lines) * LINE_H
+    # Spread the info lines so the text column spans the same height as the portrait.
+    info_lh = max(LINE_H, (art_h - FONT_SIZE * 0.25) / len(lines))
+    info_h = len(lines) * info_lh
     inner = max(art_h, info_h)
-    info_x = pad + art_w + 20
+    info_x = pad + art_w + 12
     width = info_x + WIDTH * CHAR_W + pad
     height = pad * 2 + inner
     art_top = pad + (inner - art_h) / 2
@@ -270,7 +272,7 @@ def render(lines, art, theme):
     out.append("</text>")
     out.append(f'<text x="{info_x:.1f}" y="{info_top + FONT_SIZE:.1f}" fill="{c["text"]}">')
     for i, line in enumerate(lines):
-        y = info_top + FONT_SIZE + i * LINE_H
+        y = info_top + FONT_SIZE + i * info_lh
         segs = "".join(f'<tspan fill="{c[role]}">{escape(text)}</tspan>' for text, role in line if text)
         out.append(f'<tspan x="{info_x:.1f}" y="{y:.1f}">{segs or " "}</tspan>')
     out.append("</text></svg>")
