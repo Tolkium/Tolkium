@@ -62,8 +62,9 @@ def grid(items, folder, cols, cell=(130, 112), icon=64, out="panel.png"):
 
 def line_svg():
     (ROOT / "assets" / "line.svg").write_text(
-        '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="6" viewBox="0 0 900 6" preserveAspectRatio="none">'
-        '<rect x="0" y="2" width="900" height="2" fill="#ff2a6d" fill-opacity="0.75"/></svg>',
+        # 1px line, same pink and opacity as the panel and card borders.
+        '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="3" viewBox="0 0 900 3" preserveAspectRatio="none">'
+        '<rect x="0" y="1" width="900" height="1" fill="#ff2a6d" fill-opacity="0.75"/></svg>',
         encoding="utf-8")
 
 
