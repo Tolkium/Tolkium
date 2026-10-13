@@ -133,11 +133,73 @@ def ring_avatar(size=640, ring=4, gap=6):
     out.resize((size, size), Image.LANCZOS).save(ROOT / "profile-picture" / "avatar-pink-ring.png", optimize=True)
 
 
+LINKS = {
+    "davepl": "https://www.youtube.com/@davepl", "lowleveltv": "https://www.youtube.com/@LowLevelTV",
+    "theprimetimeagen": "https://www.youtube.com/@ThePrimeTimeagen", "t3dotgg": "https://www.youtube.com/@t3dotgg",
+    "fireship": "https://www.youtube.com/@Fireship", "codebullet": "https://www.youtube.com/@CodeBullet",
+    "willjum": "https://www.youtube.com/@willjum", "gamermeld": "https://www.youtube.com/@GamerMeld",
+    "eevblog": "https://www.youtube.com/@EEVblog", "jerryrigeverything": "https://www.youtube.com/@JerryRigEverything",
+    "linustechtips": "https://www.youtube.com/@LinusTechTips", "markrober": "https://www.youtube.com/@MarkRober",
+    "the-finals": "https://store.steampowered.com/app/2073850/", "wardogs": "https://store.steampowered.com/app/1867240/",
+    "palworld": "https://store.steampowered.com/app/1623730/",
+}
+CELL = (86, 74)
+GAP = 24  # space between the creators and games blocks
+
+
+def tile(folder, key, name, shape, size=44):
+    """One icon + its name, transparent background; dark and light variants."""
+    ic = icon(folder, key, size, False, shape)
+    font = ImageFont.truetype(FONT, 12 * S)
+    for theme, text in THEMES.items():
+        img = Image.new("RGBA", (CELL[0] * S, CELL[1] * S), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        img.alpha_composite(ic, (int((CELL[0] - size) / 2 * S), 4 * S))
+        tw = d.textlength(name, font=font)
+        d.text((CELL[0] / 2 * S - tw / 2, (size + 9) * S), name, font=font, fill=text)
+        img.save(ROOT / "assets" / "hobbies" / f"{key}-{theme}.png", optimize=True)
+
+
+def title_img(name, text_title, width):
+    emo, words = text_title.split(" ", 1)
+    em = emoji(emo, 18 * S)
+    for theme, text in THEMES.items():
+        img = Image.new("RGBA", (width * S, TITLE_H * S), (0, 0, 0, 0))
+        img.alpha_composite(em, (6 * S, 4 * S))
+        ImageDraw.Draw(img).text((30 * S, 2 * S), words, font=title_font(), fill=text)
+        img.save(ROOT / "assets" / "hobbies" / f"title-{name}-{theme}.png", optimize=True)
+
+
+def pic(stem, alt, w, h):
+    return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hobbies/{stem}-dark.png">'
+            f'<img src="./assets/hobbies/{stem}-light.png" alt="{alt}" width="{w}" height="{h}"></picture>')
+
+
+def hobbies():
+    """Separate clickable tiles laid out as: creators (6 x 2) on the left, games on the right."""
+    (ROOT / "assets" / "hobbies").mkdir(exist_ok=True)
+    for key, name in CREATORS:
+        tile("creators", key, name, "circle")
+    for key, name in GAMES:
+        tile("games", key, name, "rounded")
+    cw, gw = 6 * CELL[0], 3 * CELL[0]
+    title_img("creators", "📺 Favorite Creators", cw)
+    title_img("games", "🎮 Currently Playing", gw)
+    Image.new("RGBA", (GAP * S, 2), (0, 0, 0, 0)).save(ROOT / "assets" / "hobbies" / "gap.png")
+    gap = f'<img src="./assets/hobbies/gap.png" alt="" width="{GAP}" height="1">'
+    link = lambda key, name: f'<a href="{LINKS[key]}">{pic(key, name, *CELL)}</a>'
+    rows = [
+        pic("title-creators", "Favorite Creators", cw, TITLE_H) + gap + pic("title-games", "Currently Playing", gw, TITLE_H),
+        "".join(link(k, n) for k, n in CREATORS[:6]) + gap + "".join(link(k, n) for k, n in GAMES),
+        "".join(link(k, n) for k, n in CREATORS[6:]),
+    ]
+    # No whitespace between tags: spaces would push the tiles apart.
+    (ROOT / "assets" / "hobbies" / "readme-block.md").write_text(
+        "<p>\n" + "<br>\n".join(rows) + "\n</p>\n", encoding="utf-8")
+
+
 def main():
-    ring = "split" if "--split" in sys.argv else "--no-ring" not in sys.argv
-    cw, ch = grid(CREATORS, "creators", cols=6, out="creators", ring=ring, shape="circle", title="📺 Favorite Creators")
-    gw, _ = grid(GAMES, "games", cols=3, out="games", ring=ring, shape="rounded", title="🎮 Currently Playing", height=ch)
-    (ROOT / "assets" / "hobbies-size.txt").write_text(f"{cw} {gw}", encoding="utf-8")
+    hobbies()
     line_svg()
     ring_avatar()
 
