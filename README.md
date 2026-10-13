@@ -5,52 +5,34 @@
   </picture>
 </a>
 
-## ⚡ Featured Projects
+### ⚡ Featured Projects
+<img src="./assets/line.svg" width="100%" alt="">
 
-<table>
-  <tr>
-    <td width="25%"><a href="https://github.com/Tolkium/QRHant"><img src="./assets/projects/QRHant.svg" alt="QRHant" width="100%"></a></td>
-    <td width="25%"><a href="https://github.com/Tolkium/manga-reader"><img src="./assets/projects/manga-reader.svg" alt="manga-reader" width="100%"></a></td>
-    <td width="25%"><a href="https://github.com/Tolkium/Antenna-Field-Configurator"><img src="./assets/projects/Antenna-Field-Configurator.svg" alt="Antenna-Field-Configurator" width="100%"></a></td>
-    <td width="25%"><a href="https://github.com/Tolkium/WebNovelScraper"><img src="./assets/projects/WebNovelScraper.svg" alt="WebNovelScraper" width="100%"></a></td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://github.com/Tolkium/QRHant"><img src="./assets/projects/QRHant.svg" alt="QRHant" width="24%"></a>
+  <a href="https://github.com/Tolkium/manga-reader"><img src="./assets/projects/manga-reader.svg" alt="manga-reader" width="24%"></a>
+  <a href="https://github.com/Tolkium/Antenna-Field-Configurator"><img src="./assets/projects/Antenna-Field-Configurator.svg" alt="Antenna-Field-Configurator" width="24%"></a>
+  <a href="https://github.com/Tolkium/WebNovelScraper"><img src="./assets/projects/WebNovelScraper.svg" alt="WebNovelScraper" width="24%"></a>
+</p>
 
-## 🧬 Activity
+### 🧬 Activity
+<img src="./assets/line.svg" width="100%" alt="">
 
 <img src="./calendar.svg" alt="Contributions calendar" width="100%">
 
 <img src="./languages.svg" alt="Most used languages" width="100%">
 
-## 🎧 Hobbies
+### 🎧 Hobbies
+<img src="./assets/line.svg" width="100%" alt="">
 
-### 📺 Favorite Creators
+#### 📺 Favorite Creators
 
-<table align="center">
-  <tr>
-    <td align="center" width="96"><a href="https://www.youtube.com/@davepl"><img src="./assets/creators/davepl.png" width="56" alt="Dave's Attic"></a><br><sub>Dave's Attic</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@LowLevelTV"><img src="./assets/creators/lowleveltv.png" width="56" alt="Low Level"></a><br><sub>Low Level</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@ThePrimeTimeagen"><img src="./assets/creators/theprimetimeagen.png" width="56" alt="ThePrimeTime"></a><br><sub>ThePrimeTime</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@t3dotgg"><img src="./assets/creators/t3dotgg.png" width="56" alt="Theo"></a><br><sub>Theo</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@Fireship"><img src="./assets/creators/fireship.png" width="56" alt="Fireship"></a><br><sub>Fireship</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@CodeBullet"><img src="./assets/creators/codebullet.png" width="56" alt="Code Bullet"></a><br><sub>Code Bullet</sub></td>
-  </tr>
-  <tr>
-    <td align="center" width="96"><a href="https://www.youtube.com/@willjum"><img src="./assets/creators/willjum.png" width="56" alt="Willjum"></a><br><sub>Willjum</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@GamerMeld"><img src="./assets/creators/gamermeld.png" width="56" alt="Gamer Meld"></a><br><sub>Gamer Meld</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@EEVblog"><img src="./assets/creators/eevblog.png" width="56" alt="EEVblog"></a><br><sub>EEVblog</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@JerryRigEverything"><img src="./assets/creators/jerryrigeverything.png" width="56" alt="JerryRigEverything"></a><br><sub>JerryRigEverything</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@LinusTechTips"><img src="./assets/creators/linustechtips.png" width="56" alt="Linus Tech Tips"></a><br><sub>Linus Tech Tips</sub></td>
-    <td align="center" width="96"><a href="https://www.youtube.com/@MarkRober"><img src="./assets/creators/markrober.png" width="56" alt="Mark Rober"></a><br><sub>Mark Rober</sub></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="./assets/creators-panel.png" alt="Favorite creators: Dave's Attic, Low Level, ThePrimeTime, Theo, Fireship, Code Bullet, Willjum, Gamer Meld, EEVblog, JerryRigEverything, Linus Tech Tips, Mark Rober" width="100%">
+</p>
 
-### 🎮 Currently Playing
+#### 🎮 Currently Playing
 
-<table align="center">
-  <tr>
-    <td align="center" width="96"><a href="https://store.steampowered.com/app/2073850/"><img src="./assets/games/the-finals.png" width="56" alt="THE FINALS"></a><br><sub>THE FINALS</sub></td>
-    <td align="center" width="96"><a href="https://store.steampowered.com/app/1867240/"><img src="./assets/games/wardogs.png" width="56" alt="WARDOGS"></a><br><sub>WARDOGS</sub></td>
-    <td align="center" width="96"><a href="https://store.steampowered.com/app/1623730/"><img src="./assets/games/palworld.png" width="56" alt="Palworld"></a><br><sub>Palworld</sub></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="./assets/games-panel.png" alt="Currently playing: THE FINALS, WARDOGS, Palworld" width="50%">
+</p>
