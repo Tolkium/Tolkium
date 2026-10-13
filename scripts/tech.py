@@ -166,7 +166,7 @@ def render(items, slug):
     return w
 
 
-def render_flat(items, icon=30, gap=12, cols=21):
+def render_flat(items, icon=24, gap=6, cols=28):
     """All icons in one tight grid, no names, no categories (names live in the alt text)."""
     size = icon * S
     step = icon + gap
@@ -179,6 +179,7 @@ def render_flat(items, icon=30, gap=12, cols=21):
             r, c = divmod(i, cols)
             img.alpha_composite(for_theme(ic, theme), (c * step * S, r * step * S))
         img.save(OUT / f"stack-{theme}.png", optimize=True)
+    return w
 
 
 def main():
@@ -190,11 +191,11 @@ def main():
             if key not in seen:
                 seen.add(key)
                 items.append(n)
-    render_flat(items)
+    width = render_flat(items)
     print("icons:", len(items), "| no icon found (initials tile used):", [n for n in items if not svg_for(n)])
     (OUT / "readme-block.md").write_text(
         '<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech/stack-dark.png">\n'
-        f'  <img src="./assets/tech/stack-light.png" alt="Tech stack: {", ".join(items)}" width="100%">\n</picture>\n',
+        f'  <img src="./assets/tech/stack-light.png" alt="Tech stack: {", ".join(items)}" width="{width}">\n</picture>\n',
         encoding="utf-8")
 
 
