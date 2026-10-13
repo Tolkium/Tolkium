@@ -50,7 +50,7 @@ def picture(repo):
         im = im.crop(((w - nw) // 2, 0, (w + nw) // 2, h))
     else:
         nh = round(w / target)
-        im = im.crop((0, (h - nh) // 2, w, (h + nh) // 2))
+        im = im.crop((0, 0, w, nh))  # keep the top: titles and headers live there
     im = im.resize((W * 2, IMG_H * 2), Image.LANCZOS)
     buf = io.BytesIO()
     im.save(buf, "JPEG", quality=82, optimize=True)
