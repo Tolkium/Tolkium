@@ -1,13 +1,13 @@
 """Convert an image (default: GitHub avatar) to coloured ASCII art for a dark background.
 
-Bright areas get dense characters, the line-art outlines stay blank so they
-draw the face, and dark fills (hair, hoodie) get mid-density characters.
-Each character takes the average colour of its cell, lifted so dark colours
-stay visible on a dark card.
+On a dark card the perceived brightness of a character is roughly
+(character density x colour brightness). So density follows the pixel's
+luminance and the colour carries the pixel's hue at full brightness - the
+result reads like the original picture: bright skin, brown hair, a dark hoodie
+that fades into the background, and black outlines that stay blank.
 
 Usage: python scripts/ascii.py <image> [cols] [rows]   -> writes assets/ascii.json
 """
-import colorsys
 import json
 import sys
 from pathlib import Path
@@ -18,21 +18,20 @@ from PIL import Image, ImageOps
 ROOT = Path(__file__).resolve().parent.parent
 RAMP = " .,:;i1tfLCG08@"
 CROP = (40, 0, 430, 440)  # head and shoulders of the 460x460 avatar
-FILL = 0.38  # minimum density for non-outline foreground
-OUTLINE = 0.14  # darker than this = outline -> blank
-MIN_VALUE = 0.45  # lift dark colours (HSV value) so they show on the dark card
+OUTLINE = 0.10  # darker than this = outline -> blank
+MAX_BOOST = 2.5  # how much a dark colour may be brightened (density does the rest)
+GAMMA = 0.65  # <1 lifts mid-tones (hair) so they read like the picture
 QUANT = 24  # colour quantisation step, merges neighbouring characters into runs
 
 
 def lift(rgb):
-    h, s, v = colorsys.rgb_to_hsv(*(c / 255 for c in rgb))
-    v = MIN_VALUE + (1 - MIN_VALUE) * v
-    s = min(1.0, s * 1.5)
-    r, g, b = (min(255, round(c * 255 / QUANT) * QUANT) for c in colorsys.hsv_to_rgb(h, s, v))
+    """Pixel hue at (near) full brightness; the character density supplies the darkness."""
+    boost = min(MAX_BOOST, 255 / max(max(rgb), 1))
+    r, g, b = (min(255, round(c * boost / QUANT) * QUANT) for c in rgb)
     return f"#{r:02x}{g:02x}{b:02x}"
 
 
-def convert(path, cols=96, rows=52):
+def convert(path, cols=52, rows=28):
     src = Image.open(path).convert("RGBA").resize((460, 460)).crop(CROP)
     img = Image.new("RGBA", src.size, "white")
     img.alpha_composite(src)  # transparent background -> white
@@ -40,8 +39,7 @@ def convert(path, cols=96, rows=52):
     gray = np.asarray(ImageOps.autocontrast(img.convert("L"), cutoff=1), dtype=np.float32) / 255
     fg = np.asarray(src.split()[3], dtype=np.float32) / 255 > 0.5
 
-    val = np.where(gray < OUTLINE, 0, FILL + (1 - FILL) * gray)
-    val = np.where(fg, val, 0)
+    val = np.where(fg & (gray >= OUTLINE), gray ** GAMMA, 0)
     colour_mask = fg & (gray >= OUTLINE)  # average colour without the black outlines
 
     h, w = val.shape
@@ -66,7 +64,7 @@ def convert(path, cols=96, rows=52):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    cols = int(args[1]) if len(args) > 1 else 96
-    rows = int(args[2]) if len(args) > 2 else 52
+    cols = int(args[1]) if len(args) > 1 else 52
+    rows = int(args[2]) if len(args) > 2 else 28
     art = {"cols": cols, "rows": convert(args[0], cols, rows)}
     (ROOT / "assets" / "ascii.json").write_text(json.dumps(art, separators=(",", ":")), encoding="utf-8")

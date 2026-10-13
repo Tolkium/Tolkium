@@ -23,7 +23,7 @@ WIDTH = 66  # characters in the info column
 FONT_SIZE = 16
 CHAR_W = FONT_SIZE * 0.6
 LINE_H = FONT_SIZE * 1.25
-ART_COLS = 48
+ART_COLS = 52
 
 # Linguist languages shown under Languages.Computer (markup, styles, data, config).
 COMPUTER_LANGS = {"HTML", "CSS", "SCSS", "Sass", "Less", "Markdown", "MDX", "JSON", "YAML", "TOML", "XML",
