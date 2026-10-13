@@ -36,12 +36,12 @@ COMPUTER_LANGS = {"HTML", "CSS", "SCSS", "Sass", "Less", "Markdown", "MDX", "JSO
 THEMES = {
     "dark": {
         "bg": "#0b0c15", "border": "#ff2a6d", "text": "#f0f3f8", "dim": "#4b5068",
-        "key": "#05d9e8", "title": "#ff2a6d", "num": "#fcee0a", "add": "#39ff88", "del": "#ff3864",
+        "key": "#05d9e8", "title": "#ff2a6d", "rule": "#3d444d", "num": "#fcee0a", "add": "#39ff88", "del": "#ff3864",
         "art": ("#f0f3f8", "#f0f3f8"),
     },
     "light": {
         "bg": "#f6f8fa", "border": "#d300c5", "text": "#1f2328", "dim": "#a0a7b4",
-        "key": "#0089a8", "title": "#c2185b", "num": "#9a6700", "add": "#1a7f37", "del": "#cf222e",
+        "key": "#0089a8", "title": "#c2185b", "rule": "#d1d9e0", "num": "#9a6700", "add": "#1a7f37", "del": "#cf222e",
         "art": ("#1f2328", "#1f2328"),
     },
 }
@@ -282,7 +282,7 @@ def render(lines, art, theme):
                 # A real 1px line (same weight as the README heading lines) instead of thick "─" glyphs.
                 x0 = info_x + (col + 0.5) * CHAR_W
                 out.append(f'<rect x="{x0:.1f}" y="{y - FONT_SIZE * 0.32:.1f}" width="{(len(text) - 0.5) * CHAR_W:.1f}" '
-                           f'height="1" fill="{c["title"]}" fill-opacity="0.75"/>')
+                           f'height="1" fill="{c["rule"]}"/>')  # GitHub's own border grey
             elif text:
                 segs += f'<tspan fill="{c[role]}">{escape(text)}</tspan>'
             col += len(text)

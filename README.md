@@ -5,7 +5,7 @@
   </picture>
 </a>
 
-### ⚡ Featured Projects<br><img src="./assets/line.svg" width="100%" alt="">
+### ⚡ Featured Projects<br><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/line-dark.svg"><img src="./assets/line-light.svg" width="100%" alt=""></picture>
 
 <p align="center">
   <a href="https://github.com/Tolkium/QRHant"><img src="./assets/projects/QRHant.svg" alt="QRHant" width="24%"></a>
@@ -14,13 +14,13 @@
   <a href="https://github.com/Tolkium/WebNovelScraper"><img src="./assets/projects/WebNovelScraper.svg" alt="WebNovelScraper" width="24%"></a>
 </p>
 
-### 🧬 Activity<br><img src="./assets/line.svg" width="100%" alt="">
+### 🧬 Activity<br><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/line-dark.svg"><img src="./assets/line-light.svg" width="100%" alt=""></picture>
 
 <img src="./calendar.svg" alt="Contributions calendar" width="100%">
 
 <img src="./languages.svg" alt="Most used languages" width="100%">
 
-### 🎧 Hobbies<br><img src="./assets/line.svg" width="100%" alt="">
+### 🎧 Hobbies<br><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/line-dark.svg"><img src="./assets/line-light.svg" width="100%" alt=""></picture>
 
 <b>📺 Favorite Creators</b>
 

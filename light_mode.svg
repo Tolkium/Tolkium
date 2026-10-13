@@ -28,7 +28,7 @@
 <text x="14" y="530.0" font-size="16.00px" fill="#1f2328"><tspan fill="#42424f">;;;;;;;;;;;;;;:;,.</tspan><tspan fill="#42425c">;</tspan><tspan fill="#42424f">;;::;;;:, :;:,..;;,.;;:.        </tspan><tspan fill="#42344f">.</tspan></text>
 <text x="14" y="550.0" font-size="16.00px" fill="#1f2328"><tspan fill="#42424f">;;;;;;;;;;;;;;;,;;:;;;.  ,::,,   .;, .;,.           </tspan></text>
 <text x="14" y="570.0" font-size="16.00px" fill="#1f2328"><tspan fill="#42424f">;;;;;;;;;;;;;;;,.;::;;;,    .   .,                  </tspan></text>
-<rect x="649.4" y="26.9" width="482.8" height="1" fill="#c2185b" fill-opacity="0.75"/>
+<rect x="649.4" y="26.9" width="482.8" height="1" fill="#d1d9e0"/>
 <text x="513.5" y="32.0" fill="#1f2328"><tspan fill="#1f2328">Tolkium/Simon </tspan></text>
 <text x="513.5" y="55.2" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">OS</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ........... </tspan><tspan fill="#1f2328">Windows 11, Omarchy, Android 17, CasaOS, Proxmox</tspan></text>
 <text x="513.5" y="78.3" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Uptime</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ............................ </tspan><tspan fill="#1f2328">10 years, 2 months, 16 days</tspan></text>
@@ -43,16 +43,16 @@
 <text x="513.5" y="286.8" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Hobbies</tspan><tspan fill="#1f2328">.</tspan><tspan fill="#0089a8">Making</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> .......... </tspan><tspan fill="#1f2328">3D Printing, 3D Modeling, Prototyping</tspan></text>
 <text x="513.5" y="310.0" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Hobbies</tspan><tspan fill="#1f2328">.</tspan><tspan fill="#0089a8">Other</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ............... </tspan><tspan fill="#1f2328">Homelab, Scouting, Anime, Reading</tspan></text>
 <text x="513.5" y="333.2" fill="#1f2328"> </text>
-<rect x="611.9" y="351.2" width="520.3" height="1" fill="#c2185b" fill-opacity="0.75"/>
+<rect x="611.9" y="351.2" width="520.3" height="1" fill="#d1d9e0"/>
 <text x="513.5" y="356.3" fill="#1f2328"><tspan fill="#c2185b">- Contact </tspan></text>
 <text x="513.5" y="379.5" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Website</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ........................................... </tspan><tspan fill="#1f2328">tolkium.net</tspan></text>
 <text x="513.5" y="402.7" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Email</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ....................................... </tspan><tspan fill="#1f2328">tolkium@gmail.com</tspan></text>
 <text x="513.5" y="425.8" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">LinkedIn</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> .......................................... </tspan><tspan fill="#1f2328">marek-sipos</tspan></text>
 <text x="513.5" y="449.0" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Discord</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ............................................... </tspan><tspan fill="#1f2328">Tolkium</tspan></text>
 <text x="513.5" y="472.2" fill="#1f2328"> </text>
-<rect x="658.8" y="490.2" width="473.4" height="1" fill="#c2185b" fill-opacity="0.75"/>
+<rect x="658.8" y="490.2" width="473.4" height="1" fill="#d1d9e0"/>
 <text x="513.5" y="495.3" fill="#1f2328"><tspan fill="#c2185b">- GitHub Stats </tspan></text>
 <text x="513.5" y="518.5" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Repos</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> .. </tspan><tspan fill="#9a6700">46</tspan><tspan fill="#1f2328"> {</tspan><tspan fill="#0089a8">Contributed</tspan><tspan fill="#1f2328">: </tspan><tspan fill="#9a6700">0</tspan><tspan fill="#1f2328">}</tspan><tspan fill="#a0a7b4"> | </tspan><tspan fill="#0089a8">Stars</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ....................... </tspan><tspan fill="#9a6700">2</tspan></text>
-<text x="513.5" y="541.7" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Commits</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ................ </tspan><tspan fill="#9a6700">752</tspan><tspan fill="#a0a7b4"> | </tspan><tspan fill="#0089a8">Followers</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ................... </tspan><tspan fill="#9a6700">0</tspan></text>
+<text x="513.5" y="541.7" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Commits</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ................ </tspan><tspan fill="#9a6700">441</tspan><tspan fill="#a0a7b4"> | </tspan><tspan fill="#0089a8">Followers</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ................... </tspan><tspan fill="#9a6700">0</tspan></text>
 <text x="513.5" y="564.8" fill="#1f2328"><tspan fill="#a0a7b4">. </tspan><tspan fill="#0089a8">Lines of Code on GitHub</tspan><tspan fill="#1f2328">:</tspan><tspan fill="#a0a7b4"> ...... </tspan><tspan fill="#9a6700">621,236</tspan><tspan fill="#1f2328"> ( </tspan><tspan fill="#1a7f37">779,699++</tspan><tspan fill="#1f2328">, </tspan><tspan fill="#cf222e">158,463--</tspan><tspan fill="#1f2328"> )</tspan></text>
 </svg>

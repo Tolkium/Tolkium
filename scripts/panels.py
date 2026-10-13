@@ -82,11 +82,11 @@ def grid(items, folder, cols, out, ring, shape, cell=(130, 104), size=64):
 
 
 def line_svg():
-    (ROOT / "assets" / "line.svg").write_text(
-        # 1px line, same pink and opacity as the panel and card borders.
-        '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="3" viewBox="0 0 900 3" preserveAspectRatio="none">'
-        '<rect x="0" y="1" width="900" height="1" fill="#ff2a6d" fill-opacity="0.75"/></svg>',
-        encoding="utf-8")
+    """1px heading line in GitHub's own border grey (dark and light theme variants)."""
+    for theme, colour in (("dark", "#3d444d"), ("light", "#d1d9e0")):
+        (ROOT / "assets" / f"line-{theme}.svg").write_text(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="3" viewBox="0 0 900 3" preserveAspectRatio="none">'
+            f'<rect x="0" y="1" width="900" height="1" fill="{colour}"/></svg>', encoding="utf-8")
 
 
 def ring_avatar(size=640, ring=4, gap=6):
