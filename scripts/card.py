@@ -207,7 +207,8 @@ def build_lines(cfg, stats):
             elif value == "{account_age}":
                 value = uptime(stats["created"]) if stats.get("created") else ""
             elif value in ("{langs_programming}", "{langs_computer}"):
-                value = fit_list(stats.get(value[1:-1], []), WIDTH - len(key) - 8)
+                value = fit_list(stats.get(value[1:-1], []), WIDTH - len(key) - 8,
+                                 limit=5 if value == "{langs_computer}" else 6)
             if value:
                 rows.append(kv(key, value))
         if not rows:
