@@ -1,6 +1,6 @@
 """Render the terminal-style profile card (dark_mode.svg / light_mode.svg).
 
-Reads card.json + assets/ascii.txt, fetches live stats from the GitHub API
+Reads card.json + assets/ascii.json, fetches live stats from the GitHub API
 (token in GITHUB_TOKEN or GH_TOKEN) and writes the SVGs to the repo root.
 
 Usage: python scripts/card.py [--offline]
@@ -231,28 +231,42 @@ def _len(segments):
 
 
 # ---------------------------------------------------------------- SVG
+def shade(colour, theme):
+    """Art colours are tuned for the dark card; darken them for the light one."""
+    if theme == "dark":
+        return colour
+    r, g, b = (int(colour[i:i + 2], 16) * 0.55 for i in (1, 3, 5))
+    return f"#{int(r):02x}{int(g):02x}{int(b):02x}"
+
+
 def render(lines, art, theme):
     c = THEMES[theme]
-    rows = max(len(lines), len(art))
     pad = 24
-    info_x = pad + ART_COLS * CHAR_W + 20
+    art_w = ART_COLS * CHAR_W
+    art_fs = art_w / (art["cols"] * 0.6)  # fit the art columns into the art box
+    art_lh = art_fs * 1.25
+    art_h = len(art["rows"]) * art_lh
+    info_h = len(lines) * LINE_H
+    inner = max(art_h, info_h)
+    info_x = pad + art_w + 20
     width = info_x + WIDTH * CHAR_W + pad
-    height = pad * 2 + rows * LINE_H
-    art_top = pad + (rows - len(art)) / 2 * LINE_H
-    info_top = pad + (rows - len(lines)) / 2 * LINE_H
+    height = pad * 2 + inner
+    art_top = pad + (inner - art_h) / 2
+    info_top = pad + (inner - info_h) / 2
 
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="{width:.0f}" height="{height:.0f}" '
         f'font-family="ConsolasFallback,Consolas,\'DejaVu Sans Mono\',monospace" font-size="{FONT_SIZE}px">',
         "<style>text, tspan { white-space: pre; }</style>",
-        f'<defs><linearGradient id="art" x1="0" y1="0" x2="1" y2="1">'
-        f'<stop offset="0" stop-color="{c["art"][0]}"/><stop offset="1" stop-color="{c["art"][1]}"/></linearGradient></defs>',
         f'<rect x="0.5" y="0.5" width="{width - 1:.0f}" height="{height - 1:.0f}" rx="14" '
         f'fill="{c["bg"]}" stroke="{c["border"]}" stroke-opacity="0.55"/>',
-        f'<text x="{pad}" y="{art_top + FONT_SIZE:.1f}" fill="url(#art)">',
+        f'<text x="{pad}" y="{art_top + art_fs:.1f}" font-size="{art_fs:.2f}px" fill="{c["text"]}">',
     ]
-    for i, line in enumerate(art):
-        out.append(f'<tspan x="{pad}" y="{art_top + FONT_SIZE + i * LINE_H:.1f}">{escape(line)}</tspan>')
+    for i, runs in enumerate(art["rows"]):
+        segs = "".join(
+            f'<tspan fill="{shade(colour, theme)}">{escape(text)}</tspan>' if colour else escape(text)
+            for text, colour in runs)
+        out.append(f'<tspan x="{pad}" y="{art_top + art_fs + i * art_lh:.1f}">{segs or " "}</tspan>')
     out.append("</text>")
     out.append(f'<text x="{info_x:.1f}" y="{info_top + FONT_SIZE:.1f}" fill="{c["text"]}">')
     for i, line in enumerate(lines):
@@ -265,7 +279,7 @@ def render(lines, art, theme):
 
 def main():
     cfg = json.loads((ROOT / "card.json").read_text(encoding="utf-8"))
-    art = (ROOT / "assets" / "ascii.txt").read_text(encoding="utf-8").rstrip("\n").split("\n")
+    art = json.loads((ROOT / "assets" / "ascii.json").read_text(encoding="utf-8"))
     if "--offline" in sys.argv:
         stats = {"repos": 0, "contributed": 0, "stars": 0, "commits": 0, "followers": 0, "added": 0, "deleted": 0}
     else:

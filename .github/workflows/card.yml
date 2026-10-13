@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [card.json, assets/ascii.txt, scripts/**]
+    paths: [card.json, assets/ascii.json, scripts/**]
 
 permissions:
   contents: write
