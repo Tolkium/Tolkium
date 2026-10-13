@@ -16,7 +16,7 @@ from PIL import Image
 from card import ROOT, USER, graphql
 
 REPOS = ["QRHant", "manga-reader", "Antenna-Field-Configurator", "WebNovelScraper"]
-FIT_WIDTH = {"Antenna-Field-Configurator"}  # wide screenshots shown whole instead of side-cropped
+ZOOM = {"Antenna-Field-Configurator": 1.3}  # zoom into the centre of these screenshots
 W, H = 400, 300
 BG, TEXT, DIM = "#0b0c15", "#f0f3f8", "#c9d1d9"
 FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
@@ -42,13 +42,12 @@ def picture(repo):
     # Crop to the card's aspect ratio so the picture fills it edge to edge (2x for sharpness).
     target = W / H
     w, h = im.size
-    if repo in FIT_WIDTH and w / h > target:
-        # Show the whole width; extend top/bottom with the screenshot's own edge colour.
-        bg = tuple(int(v) for v in im.crop((0, 0, w, 4)).resize((1, 1), Image.BOX).getpixel((0, 0)))
-        canvas = Image.new("RGB", (w, round(w / target)), bg)
-        canvas.paste(im, (0, round((canvas.height - h) * 0.25)))  # a bit high: the bottom holds the title
-        im = canvas
-    elif w / h > target:
+    if repo in ZOOM:
+        z = ZOOM[repo]
+        cw, ch = round(w / z), round(h / z)
+        im = im.crop(((w - cw) // 2, (h - ch) // 2, (w + cw) // 2, (h + ch) // 2))
+        w, h = im.size
+    if w / h > target:
         nw = round(h * target)
         im = im.crop(((w - nw) // 2, 0, (w + nw) // 2, h))
     else:
