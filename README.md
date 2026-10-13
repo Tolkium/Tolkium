@@ -25,11 +25,17 @@
 <b>📺 Favorite Creators</b>
 
 <p align="center">
-  <img src="./assets/creators-panel.png" alt="Favorite creators: Dave's Attic, Low Level, ThePrimeTime, Theo, Fireship, Code Bullet, Willjum, Gamer Meld, EEVblog, JerryRigEverything, Linus Tech Tips, Mark Rober" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/creators-dark.png">
+    <img src="./assets/creators-light.png" alt="Favorite creators: Dave's Attic, Low Level, ThePrimeTime, Theo, Fireship, Code Bullet, Willjum, Gamer Meld, EEVblog, JerryRigEverything, Linus Tech Tips, Mark Rober" width="100%">
+  </picture>
 </p>
 
 <b>🎮 Currently Playing</b>
 
 <p align="center">
-  <img src="./assets/games-panel.png" alt="Currently playing: THE FINALS, WARDOGS, Palworld" width="50%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/games-dark.png">
+    <img src="./assets/games-light.png" alt="Currently playing: THE FINALS, WARDOGS, Palworld" width="50%">
+  </picture>
 </p>
