@@ -45,7 +45,7 @@
   </tr>
 </table>
 
-### 🎮 Games
+### 🎮 Currently Playing
 
 <table align="center">
   <tr>
