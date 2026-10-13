@@ -14,16 +14,34 @@ from PIL import Image
 
 from card import ROOT, USER, graphql
 
-REPOS = ["QRHant", "manga-reader", "Antenna-Field-Configurator", "hmstrsoc"]
+REPOS = ["QRHant", "manga-reader", "Antenna-Field-Configurator", "WebNovelScraper"]
 W, H = 400, 300
 IMG_H = H * 3 // 4
 BG, BORDER, TEXT, DIM = "#0b0c15", "#ff2a6d", "#f0f3f8", "#8b949e"
 FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
 
 
+def combine(images, gap=24):
+    """Place several screenshots side by side on the card background."""
+    h = 900
+    w = round(h * W / IMG_H)
+    # Common height so the row fits the canvas width (and height) without cropping.
+    row_h = min(h - 2 * gap, (w - gap * (len(images) + 1)) / sum(im.width / im.height for im in images))
+    scaled = [im.resize((round(im.width * row_h / im.height), round(row_h)), Image.LANCZOS) for im in images]
+    content_w = sum(im.width for im in scaled) + gap * (len(scaled) - 1)
+    canvas = Image.new("RGB", (w, h), BG)
+    x, y = (w - content_w) // 2, (h - round(row_h)) // 2
+    for im in scaled:
+        canvas.paste(im, (x, y))
+        x += im.width + gap
+    return canvas
+
+
 def picture(repo):
-    src = next((ROOT / "assets" / "projects" / "src").glob(f"{repo}.*"))
-    im = Image.open(src).convert("RGB")
+    folder = ROOT / "assets" / "projects" / "src"
+    sources = sorted(folder.glob(f"{repo}.*")) or sorted(folder.glob(f"{repo}-*.*"))
+    images = [Image.open(p).convert("RGB") for p in sources]
+    im = images[0] if len(images) == 1 else combine(images)
     # Centre-crop to the picture area's aspect ratio, render at 2x for sharpness.
     target = W / IMG_H
     w, h = im.size
