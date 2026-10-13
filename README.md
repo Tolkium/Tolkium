@@ -8,10 +8,10 @@
 ### ⚡ Featured Projects<br><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/line-dark.svg"><img src="./assets/line-light.svg" width="100%" alt=""></picture>
 
 <p align="center">
-  <a href="https://github.com/Tolkium/QRHant"><img src="./assets/projects/QRHant.svg" alt="QRHant" width="24%"></a>
-  <a href="https://github.com/Tolkium/manga-reader"><img src="./assets/projects/manga-reader.svg" alt="manga-reader" width="24%"></a>
-  <a href="https://github.com/Tolkium/Antenna-Field-Configurator"><img src="./assets/projects/Antenna-Field-Configurator.svg" alt="Antenna-Field-Configurator" width="24%"></a>
-  <a href="https://github.com/Tolkium/WebNovelScraper"><img src="./assets/projects/WebNovelScraper.svg" alt="WebNovelScraper" width="24%"></a>
+  <a href="https://github.com/Tolkium/QRHant#readme"><img src="./assets/projects/QRHant.svg" alt="QRHant" width="24%"></a>
+  <a href="https://github.com/Tolkium/manga-reader#readme"><img src="./assets/projects/manga-reader.svg" alt="manga-reader" width="24%"></a>
+  <a href="https://github.com/Tolkium/Antenna-Field-Configurator#readme"><img src="./assets/projects/Antenna-Field-Configurator.svg" alt="Antenna-Field-Configurator" width="24%"></a>
+  <a href="https://github.com/Tolkium/WebNovelScraper#readme"><img src="./assets/projects/WebNovelScraper.svg" alt="WebNovelScraper" width="24%"></a>
 </p>
 
 ### 🧬 Activity<br><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/line-dark.svg"><img src="./assets/line-light.svg" width="100%" alt=""></picture>

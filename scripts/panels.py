@@ -58,7 +58,7 @@ def icon(folder, key, size, ring, shape):
     return out.resize((size * S, size * S), Image.LANCZOS)
 
 
-TITLE_H = 30
+TITLE_H = 44
 
 
 def title_font():
