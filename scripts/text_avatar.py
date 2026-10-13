@@ -21,7 +21,8 @@ BG = (11, 12, 21)
 RAMP = " .,:;i1tfLCG08@"
 PHRASE = "TOLKIUM/SIMON "
 GLYPHS = ".,:;i1tfLCG08@#%&$WMB"
-TINT_CAP = 0.7  # max cell tint, as a fraction of the target colour
+SCALE = 1.4  # font size / line height; >1 lets letters overlap a little so they cover more
+SPACING = 1.0  # letter advance as a fraction of the glyph width (tighter = brighter)
 FONT = "C:/Windows/Fonts/consolab.ttf"
 
 
@@ -38,8 +39,8 @@ def coverage(font, cell_w, cell_h, chars):
 
 def render(style, rows, src=ROOT / "assets" / "avatar.png"):
     cell_h = SIZE / rows
-    font = ImageFont.truetype(FONT, round(cell_h * 0.95))
-    cell_w = font.getlength("M")
+    font = ImageFont.truetype(FONT, round(cell_h * (SCALE if style == 'match' else 0.95)))
+    cell_w = font.getlength("M") * (SPACING if style == "match" else 1)
     cols = int(SIZE / cell_w)
 
     im = Image.open(src).convert("RGBA").resize((cols, rows), Image.LANCZOS)
@@ -69,16 +70,10 @@ def render(style, rows, src=ROOT / "assets" / "avatar.png"):
                         ch, colour = cand, need
                         break
                 if ch is None:
-                    # Even the densest glyph can't get there: keep the hue at full brightness and
-                    # tint the cell behind it with the same colour to make up the difference.
+                    # Even the densest glyph can't get there: full brightness, true hue, no fill.
                     ch, cov = glyphs[-1]
                     need = (target - bg * (1 - cov)) / cov
                     colour = need * 255 / need.max()
-                    # Cap the tint so the letters keep contrast and still read as text.
-                    tint = np.clip(np.minimum((target - colour * cov) / (1 - cov), target * TINT_CAP), bg, 255)
-                    x = x0 + c * cell_w
-                    draw.rectangle((x, r * cell_h, x + cell_w, (r + 1) * cell_h),
-                                   fill=tuple(int(v) for v in tint))
                 k += 1
                 draw.text((x0 + c * cell_w, r * cell_h), ch, font=font,
                           fill=tuple(int(np.clip(v, 0, 255)) for v in colour))
