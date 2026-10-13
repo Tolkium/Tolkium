@@ -16,13 +16,15 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-SIZE = 1024
+SIZE = 2048
 BG = (11, 12, 21)
 RAMP = " .,:;i1tfLCG08@"
 PHRASE = "TOLKIUM/SIMON "
-GLYPHS = ".,:;i1tfLCG08@#%&$WMB"
-SCALE = 1.4  # font size / line height; >1 lets letters overlap a little so they cover more
+GLYPHS = ".,:;i1tfLCG08@#%&$WMBNKRHDQAOE"
+SCALE = 1.1  # font size / line height; >1 lets letters overlap a little so they cover more
 SPACING = 1.0  # letter advance as a fraction of the glyph width (tighter = brighter)
+VARIETY = 0.08  # glyphs within this much coverage of the best fit are mixed
+DENSEST = 6  # how many of the densest glyphs to mix where nothing reaches the colour
 FONT = "C:/Windows/Fonts/consolab.ttf"
 
 
@@ -49,6 +51,7 @@ def render(style, rows, src=ROOT / "assets" / "avatar.png"):
     lum = (0.299 * rgb[..., 0] + 0.587 * rgb[..., 1] + 0.114 * rgb[..., 2]) / 255
 
     glyphs = [g for g in coverage(font, cell_w, cell_h, GLYPHS) if g[1] > 0.04]
+    rng = np.random.default_rng(7)  # fixed seed: same picture every run
     out = Image.new("RGB", (SIZE, SIZE), BG)
     draw = ImageDraw.Draw(out)
     x0 = (SIZE - cols * cell_w) / 2
@@ -63,17 +66,17 @@ def render(style, rows, src=ROOT / "assets" / "avatar.png"):
             if style == "match":
                 target = colour * a + np.array(BG) * (1 - a)
                 bg = np.array(BG, dtype=np.float32)
-                ch = None
-                for cand, cov in glyphs:
-                    need = (target - bg * (1 - cov)) / cov
-                    if need.max() <= 255:
-                        ch, colour = cand, need
-                        break
-                if ch is None:
-                    # Even the densest glyph can't get there: full brightness, true hue, no fill.
-                    ch, cov = glyphs[-1]
-                    need = (target - bg * (1 - cov)) / cov
-                    colour = need * 255 / need.max()
+                # Glyphs dense enough to reach the target colour, lightest first.
+                fits = [(g, cov) for g, cov in glyphs if ((target - bg * (1 - cov)) / cov).max() <= 255]
+                if fits:
+                    # Mix similar-coverage glyphs so flat areas read as text, not a pattern.
+                    pool = [g for g in fits if g[1] <= fits[0][1] + VARIETY] 
+                else:
+                    pool = glyphs[-DENSEST:]
+                ch, cov = pool[rng.integers(len(pool))]
+                colour = (target - bg * (1 - cov)) / cov
+                if colour.max() > 255:  # densest glyphs can't get there: full brightness, true hue
+                    colour = colour * 255 / colour.max()
                 k += 1
                 draw.text((x0 + c * cell_w, r * cell_h), ch, font=font,
                           fill=tuple(int(np.clip(v, 0, 255)) for v in colour))
