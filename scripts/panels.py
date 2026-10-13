@@ -169,32 +169,42 @@ def title_img(name, text_title, width):
         img.save(ROOT / "assets" / "hobbies" / f"title-{name}-{theme}.png", optimize=True)
 
 
-def pic(stem, alt, w, h):
+PAGE_W = 1100  # README width on a desktop profile (px); widths are given as % of the page
+GAP = 32  # space between the creators and games blocks (px at desktop size)
+
+
+def pct(px):
+    return f"{px / PAGE_W * 100:.2f}%"
+
+
+def pic(stem, alt, w):
+    # Width in % (no height): rows scale down together on narrow screens instead of wrapping.
     return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hobbies/{stem}-dark.png">'
-            f'<img src="./assets/hobbies/{stem}-light.png" alt="{alt}" width="{w}" height="{h}"></picture>')
+            f'<img src="./assets/hobbies/{stem}-light.png" alt="{alt}" width="{pct(w)}"></picture>')
 
 
 def hobbies():
-    """Separate clickable tiles, stacked: creators (6 per row), then games. Clean on desktop and phones."""
+    """Separate clickable tiles: creators (6 x 2) on the left, games on the right.
+    Every width is a % of the page, so the layout keeps its shape on phones (just smaller)."""
     (ROOT / "assets" / "hobbies").mkdir(exist_ok=True)
     for key, name in CREATORS:
         tile("creators", key, name, "circle")
     for key, name in GAMES:
         tile("games", key, name, "rounded")
-    tw = 220  # title image width: narrow enough that it never gets squeezed on a phone
-    title_img("creators", "📺 Favorite Creators", tw)
-    title_img("games", "🎮 Currently Playing", tw)
-    (ROOT / "assets" / "hobbies" / "gap.png").unlink(missing_ok=True)
-    link = lambda key, name: f'<a href="{LINKS[key]}">{pic(key, name, *CELL)}</a>'
-
-    def block(title, alt, rows):
-        # No whitespace between tags: spaces would push the tiles apart.
-        lines = [pic(title, alt, tw, TITLE_H)] + ["".join(link(k, n) for k, n in r) for r in rows]
-        return "<p>\n" + "<br>\n".join(lines) + "\n</p>\n"
-
+    cw, gw = 6 * CELL[0], 3 * CELL[0]
+    title_img("creators", "📺 Favorite Creators", cw)
+    title_img("games", "🎮 Currently Playing", gw)
+    Image.new("RGBA", (GAP * S, 2), (0, 0, 0, 0)).save(ROOT / "assets" / "hobbies" / "gap.png")
+    gap = f'<img src="./assets/hobbies/gap.png" alt="" width="{pct(GAP)}">'
+    link = lambda key, name: f'<a href="{LINKS[key]}">{pic(key, name, CELL[0])}</a>'
+    rows = [
+        pic("title-creators", "Favorite Creators", cw) + gap + pic("title-games", "Currently Playing", gw),
+        "".join(link(k, n) for k, n in CREATORS[:6]) + gap + "".join(link(k, n) for k, n in GAMES),
+        "".join(link(k, n) for k, n in CREATORS[6:]),
+    ]
+    # No whitespace between tags: spaces would push the tiles apart.
     (ROOT / "assets" / "hobbies" / "readme-block.md").write_text(
-        block("title-creators", "Favorite Creators", [CREATORS[:6], CREATORS[6:]]) + "\n"
-        + block("title-games", "Currently Playing", [GAMES]), encoding="utf-8")
+        "<p>\n" + "<br>\n".join(rows) + "\n</p>\n", encoding="utf-8")
 
 
 def main():
