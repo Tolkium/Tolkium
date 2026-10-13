@@ -28,6 +28,9 @@ CHAR_W = FONT_SIZE * ADVANCE
 LINE_H = FONT_SIZE * 1.25
 ART_COLS = 52
 
+# Shown instead of a detected language (JSON never appears in GitHub's language stats).
+COMPUTER_SWAP = {"Makefile": "JSON"}
+
 # Linguist languages shown under Languages.Computer (markup, styles, data, config).
 COMPUTER_LANGS = {"HTML", "CSS", "SCSS", "Sass", "Less", "Markdown", "MDX", "JSON", "YAML", "TOML", "XML",
                   "Dockerfile", "Makefile", "CMake", "Jupyter Notebook", "TeX", "Batchfile", "PowerShell", "Shell"}
@@ -130,7 +133,7 @@ def fetch_stats():
     return {
         "created": info["createdAt"][:10],
         "langs_programming": [l for l in ranked if l not in COMPUTER_LANGS],
-        "langs_computer": [l for l in ranked if l in COMPUTER_LANGS],
+        "langs_computer": [COMPUTER_SWAP.get(l, l) for l in ranked if l in COMPUTER_LANGS],
         "repos": len([r for r in repos if not r["isFork"]]),
         "contributed": info["repositoriesContributedTo"]["totalCount"],
         "stars": sum(r["stargazerCount"] for r in repos),

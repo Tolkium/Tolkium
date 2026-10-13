@@ -16,7 +16,7 @@
       "rows": [
         ["Languages.Programming", "{langs_programming}"],
         ["Languages.Computer", "{langs_computer}"],
-        ["Languages.Real", "Slovak, English"]
+        ["Languages.Real", "Slovak, Czech, English, Japanese"]
       ]
     },
     {
