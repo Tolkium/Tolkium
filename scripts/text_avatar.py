@@ -16,13 +16,16 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-SIZE = 1024
+SIZE = 2048
 BG = (11, 12, 21)
 RAMP = " .,:;i1tfLCG08@"
 PHRASE = "TOLKIUM/SIMON "
 GLYPHS = ".:-=+*ilt1LCGO08BNMWHDRKAE#%"  # no descenders or tall glyphs, so the font can be larger
 SPACING = 1.0  # letter advance as a fraction of the glyph width (tighter = brighter)
 VARIETY = 0.08  # glyphs within this much coverage of the best fit are mixed
+LINE_DROP = 0.12  # a pixel this much darker than its cell counts as a line
+LINE_FRAC = 0.08  # line coverage at which the cell fully leans toward the line
+LINE_WEIGHT = 0.9  # how far a line cell leans toward the line colour
 DENSEST = 6  # how many of the densest glyphs to mix where nothing reaches the colour
 FONT = "C:/Windows/Fonts/consolab.ttf"
 
@@ -51,15 +54,38 @@ def fitting_font(cell_h):
     return ImageFont.truetype(FONT, size)
 
 
+def sample_keep_lines(src, cols, rows, sub=6):
+    """One colour per cell that keeps thin dark lines (mouth, brows, outlines).
+
+    Each cell is sampled at sub x sub points; if the cell contains a dark line
+    (pixels much darker than the cell average) the colour leans toward it
+    instead of averaging it away into the skin.
+    """
+    px = np.asarray(Image.open(src).convert("RGBA").resize((cols * sub, rows * sub), Image.LANCZOS), dtype=np.float32)
+    px = px.reshape(rows, sub, cols, sub, 4).transpose(0, 2, 1, 3, 4).reshape(rows, cols, sub * sub, 4)
+    rgb, a = px[..., :3], px[..., 3:] / 255
+    lum = rgb @ np.array([0.299, 0.587, 0.114]) / 255
+    w = a[..., 0]
+    mean = (rgb * a).sum(2) / np.maximum(w.sum(2, keepdims=True), 1e-6)
+    mean_lum = (lum * w).sum(2) / np.maximum(w.sum(2), 1e-6)
+    dark = (lum < mean_lum[..., None] - LINE_DROP) & (w > 0.5)
+    frac = dark.mean(2)
+    dark_rgb = (rgb * dark[..., None]).sum(2) / np.maximum(dark.sum(2, keepdims=True), 1)
+    k = np.clip(frac / LINE_FRAC, 0, 1)[..., None] * LINE_WEIGHT
+    return mean * (1 - k) + dark_rgb * k, w.mean(2)
+
+
 def render(style, rows, src=ROOT / "assets" / "avatar.png"):
     cell_h = SIZE / rows
     font = fitting_font(cell_h) if style == "match" else ImageFont.truetype(FONT, round(cell_h * 0.95))
     cell_w = font.getlength("M") * (SPACING if style == "match" else 1)
     cols = int(SIZE / cell_w)
 
-    im = Image.open(src).convert("RGBA").resize((cols, rows), Image.LANCZOS)
-    px = np.asarray(im, dtype=np.float32)
-    rgb, alpha = px[..., :3], px[..., 3] / 255
+    if style == "match":
+        rgb, alpha = sample_keep_lines(src, cols, rows)
+    else:
+        px = np.asarray(Image.open(src).convert("RGBA").resize((cols, rows), Image.LANCZOS), dtype=np.float32)
+        rgb, alpha = px[..., :3], px[..., 3] / 255
     lum = (0.299 * rgb[..., 0] + 0.587 * rgb[..., 1] + 0.114 * rgb[..., 2]) / 255
 
     glyphs = [g for g in coverage(font, cell_w, cell_h, GLYPHS) if g[1] > 0.04]
@@ -111,5 +137,8 @@ def render(style, rows, src=ROOT / "assets" / "avatar.png"):
 if __name__ == "__main__":
     style, rows = sys.argv[1], int(sys.argv[2])
     out = Path(sys.argv[3]) if len(sys.argv) > 3 else ROOT / f"avatar-text-{style}-{rows}.png"
-    render(style, rows).save(out, optimize=True)
+    img = render(style, rows)
+    if style == "match":  # 256-colour palette keeps the 2048px picture under GitHub's 1 MB limit
+        img = img.quantize(256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    img.save(out, optimize=True)
     print(out)
