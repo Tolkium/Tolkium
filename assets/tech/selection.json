@@ -1,0 +1,140 @@
+[
+ [
+  "Languages",
+  [
+   "TypeScript",
+   "JavaScript",
+   "Python",
+   "C",
+   "C++",
+   "C#",
+   "Java",
+   "PHP",
+   "SQL",
+   "Bash / Shell",
+   "PowerShell",
+   "Solidity"
+  ]
+ ],
+ [
+  "Frontend",
+  [
+   "HTML",
+   "CSS",
+   "Sass / SCSS",
+   "React",
+   "Next.js",
+   "Vue",
+   "Nuxt",
+   "Angular",
+   "Svelte",
+   "Bootstrap",
+   "RxJS"
+  ]
+ ],
+ [
+  "Backend & APIs",
+  [
+   "Node.js",
+   "Express",
+   "NestJS",
+   "Bun",
+   "REST API",
+   "GraphQL",
+   "WebSockets",
+   "WordPress"
+  ]
+ ],
+ [
+  "Databases",
+  [
+   "MySQL",
+   "SQLite",
+   "Firebase",
+   "Supabase"
+  ]
+ ],
+ [
+  "Desktop, mobile & graphics",
+  [
+   ".NET / WPF",
+   "Unity",
+   "Blender",
+   "Figma",
+   "Photoshop",
+   "GIMP"
+  ]
+ ],
+ [
+  "IoT, hardware & making",
+  [
+   "ESP32",
+   "Arduino",
+   "Raspberry Pi",
+   "PlatformIO",
+   "Node-RED",
+   "Home Assistant",
+   "PrusaSlicer / Cura"
+  ]
+ ],
+ [
+  "Homelab, OS & infrastructure",
+  [
+   "Linux",
+   "Ubuntu",
+   "Windows",
+   "Windows Server",
+   "Proxmox",
+   "CasaOS",
+   "Docker",
+   "Docker Compose",
+   "Portainer",
+   "Nginx",
+   "Cloudflare",
+   "Omarchy"
+  ]
+ ],
+ [
+  "Cloud & hosting",
+  [
+   "Microsoft Azure",
+   "Google Cloud",
+   "AWS",
+   "Vercel",
+   "GitHub Pages"
+  ]
+ ],
+ [
+  "AI & data",
+  [
+   "Ollama",
+   "PyTorch",
+   "TensorFlow",
+   "OpenCV",
+   "Hugging Face",
+   "Pandas / NumPy"
+  ]
+ ],
+ [
+  "Testing",
+  [
+   "Jest",
+   "Vitest",
+   "Postman"
+  ]
+ ],
+ [
+  "Tools & workflow",
+  [
+   "Git",
+   "GitHub",
+   "GitHub Actions",
+   "GitLab",
+   "Slack",
+   "Microsoft Teams",
+   "VS Code",
+   "JetBrains IDEs",
+   "Claude Code"
+  ]
+ ]
+]
