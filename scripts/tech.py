@@ -16,6 +16,8 @@ import numpy as np
 import resvg_py
 from PIL import Image, ImageDraw, ImageFont
 
+from tech_links import LINKS
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "tech"
 SRC = OUT / "src"
@@ -167,20 +169,42 @@ def render(items, slug):
     return w
 
 
-def render_flat(items, icon=24, gap=6, cols=28):
-    """All icons in one tight grid, no names, no categories (names live in the alt text)."""
-    size = icon * S
-    step = icon + gap
-    rows = (len(items) + cols - 1) // cols
-    w, h = min(len(items), cols) * step - gap, rows * step - gap
-    icons = [raster(svg, size) if (svg := svg_for(n)) else tile(n, size) for n in items]
-    for theme in THEMES:
-        img = Image.new("RGBA", (w * S, h * S), (0, 0, 0, 0))
-        for i, ic in enumerate(icons):
-            r, c = divmod(i, cols)
-            img.alpha_composite(for_theme(ic, theme), (c * step * S, r * step * S))
-        img.save(OUT / f"stack-{theme}.png", optimize=True)
-    return w
+def slugify(name):
+    key = name.lower().replace("+", "plus").replace("#", "sharp")
+    return re.sub(r"[^a-z0-9]+", "-", key).strip("-")
+
+
+def render_tiles(items, icon=24, pad=3):
+    """One small linked image per technology (icon + transparent padding = the gap between icons)."""
+    folder = OUT / "icons"
+    folder.mkdir(exist_ok=True)
+    for old in folder.glob("*.png"):
+        old.unlink()
+    size, step = icon * S, (icon + 2 * pad) * S
+    html = []
+    for name in items:
+        svg = svg_for(name)
+        ic = raster(svg, size) if svg else tile(name, size)
+        slug = slugify(name)
+        files = {}
+        for theme in THEMES:
+            img = Image.new("RGBA", (step, step), (0, 0, 0, 0))
+            img.alpha_composite(for_theme(ic, theme), (pad * S, pad * S))
+            buf = io.BytesIO(); img.save(buf, "PNG", optimize=True)
+            files[theme] = buf.getvalue()
+        label = LABELS.get(name, name)
+        attrs = f'alt="{label}" title="{label}" width="{icon + 2 * pad}" height="{icon + 2 * pad}"'
+        if files["dark"] == files["light"]:  # most logos look the same on both themes: one file
+            (folder / f"{slug}.png").write_bytes(files["dark"])
+            img_html = f'<img src="./assets/tech/icons/{slug}.png" {attrs}>'
+        else:
+            for theme, data in files.items():
+                (folder / f"{slug}-{theme}.png").write_bytes(data)
+            img_html = (f'<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/tech/icons/{slug}-dark.png">'
+                        f'<img src="./assets/tech/icons/{slug}-light.png" {attrs}></picture>')
+        html.append(f'<a href="{LINKS[name]}">{img_html}</a>')
+    # No whitespace between tags: spaces would widen the gaps; the browser wraps the row by itself.
+    return "<p>\n" + "".join(html) + "\n</p>\n"
 
 
 def main():
@@ -192,12 +216,11 @@ def main():
             if key not in seen:
                 seen.add(key)
                 items.append(n)
-    width = render_flat(items)
+    missing_links = [n for n in items if n not in LINKS]
+    if missing_links:
+        raise SystemExit(f"add a link in scripts/tech_links.py for: {missing_links}")
+    (OUT / "readme-block.md").write_text(render_tiles(items), encoding="utf-8")
     print("icons:", len(items), "| no icon found (initials tile used):", [n for n in items if not svg_for(n)])
-    (OUT / "readme-block.md").write_text(
-        '<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech/stack-dark.png">\n'
-        f'  <img src="./assets/tech/stack-light.png" alt="Tech stack: {", ".join(items)}" width="{width}">\n</picture>\n',
-        encoding="utf-8")
 
 
 if __name__ == "__main__":
