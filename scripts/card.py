@@ -5,6 +5,7 @@ Reads card.json + assets/ascii.json, fetches live stats from the GitHub API
 
 Usage: python scripts/card.py [--offline]
 """
+import base64
 import datetime as dt
 import json
 import os
@@ -21,7 +22,9 @@ TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 
 WIDTH = 66  # characters in the info column
 FONT_SIZE = 16
-CHAR_W = FONT_SIZE * 0.6
+ADVANCE = 0.5859375  # glyph advance (em) of the embedded Cascadia Mono subset
+FONT_FILE = ROOT / "assets" / "fonts" / "card-mono.woff2"  # SIL OFL, see assets/fonts/OFL.txt
+CHAR_W = FONT_SIZE * ADVANCE
 LINE_H = FONT_SIZE * 1.25
 ART_COLS = 52
 
@@ -184,7 +187,7 @@ def _split_key(key):
 
 def rule(title, width=WIDTH):
     label = f"- {title} " if title else ""
-    return [(label, "title" if title else "text"), ("—" * (width - len(label) - 3), "title"), ("-—-", "title")]
+    return [(label, "title" if title else "text"), ("─" * (width - len(label)), "title")]
 
 
 def stat(key, value, width):
@@ -192,7 +195,7 @@ def stat(key, value, width):
 
 
 def build_lines(cfg, stats):
-    lines = [[(cfg["header"] + " ", "text"), ("—" * (WIDTH - len(cfg["header"]) - 4), "title"), ("-—-", "title")]]
+    lines = [[(cfg["header"] + " ", "text"), ("─" * (WIDTH - len(cfg["header"]) - 1), "title")]]
     for i, section in enumerate(cfg["sections"]):
         rows = []
         for key, value in section["rows"]:
@@ -243,7 +246,7 @@ def render(lines, art, theme):
     c = THEMES[theme]
     pad = 14
     art_w = ART_COLS * CHAR_W
-    art_fs = art_w / (art["cols"] * 0.6)  # fit the art columns into the art box
+    art_fs = art_w / (art["cols"] * ADVANCE)  # fit the art columns into the art box
     art_lh = art_fs * 1.25
     art_h = len(art["rows"]) * art_lh
     # Spread the info lines so the text column spans the same height as the portrait.
@@ -258,24 +261,25 @@ def render(lines, art, theme):
 
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="{width:.0f}" height="{height:.0f}" '
-        f'font-family="ConsolasFallback,Consolas,\'DejaVu Sans Mono\',monospace" font-size="{FONT_SIZE}px">',
-        "<style>text, tspan { white-space: pre; }</style>",
+        f'font-family="CardMono,\'Cascadia Mono\',Consolas,monospace" font-size="{FONT_SIZE}px">',
+        # The font is embedded so every viewer gets identical glyph widths: lines end exactly at the margin.
+        "<style>@font-face{font-family:CardMono;src:url(data:font/woff2;base64,"
+        + base64.b64encode(FONT_FILE.read_bytes()).decode() + ") format('woff2');}"
+        "text, tspan { white-space: pre; }</style>",
         f'<rect x="0.5" y="0.5" width="{width - 1:.0f}" height="{height - 1:.0f}" rx="14" '
         f'fill="{c["bg"]}" stroke="{c["border"]}" stroke-opacity="0.55"/>',
-        f'<text x="{pad}" y="{art_top + art_fs:.1f}" font-size="{art_fs:.2f}px" fill="{c["text"]}">',
     ]
     for i, runs in enumerate(art["rows"]):
         segs = "".join(
             f'<tspan fill="{shade(colour, theme)}">{escape(text)}</tspan>' if colour else escape(text)
             for text, colour in runs)
-        out.append(f'<tspan x="{pad}" y="{art_top + art_fs + i * art_lh:.1f}">{segs or " "}</tspan>')
-    out.append("</text>")
-    out.append(f'<text x="{info_x:.1f}" y="{info_top + FONT_SIZE:.1f}" fill="{c["text"]}">')
+        out.append(f'<text x="{pad}" y="{art_top + art_fs + i * art_lh:.1f}" font-size="{art_fs:.2f}px" '
+                   f'fill="{c["text"]}">{segs or " "}</text>')
     for i, line in enumerate(lines):
         y = info_top + FONT_SIZE + i * info_lh
         segs = "".join(f'<tspan fill="{c[role]}">{escape(text)}</tspan>' for text, role in line if text)
-        out.append(f'<tspan x="{info_x:.1f}" y="{y:.1f}">{segs or " "}</tspan>')
-    out.append("</text></svg>")
+        out.append(f'<text x="{info_x:.1f}" y="{y:.1f}" fill="{c["text"]}">{segs or " "}</text>')
+    out.append("</svg>")
     return "\n".join(out)
 
 
