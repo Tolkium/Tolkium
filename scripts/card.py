@@ -187,7 +187,7 @@ def _split_key(key):
 
 def rule(title, width=WIDTH):
     label = f"- {title} " if title else ""
-    return [(label, "title" if title else "text"), ("─" * (width - len(label)), "title")]
+    return [(label, "title" if title else "text"), ("─" * (width - len(label)), "rule")]
 
 
 def stat(key, value, width):
@@ -195,7 +195,7 @@ def stat(key, value, width):
 
 
 def build_lines(cfg, stats):
-    lines = [[(cfg["header"] + " ", "text"), ("─" * (WIDTH - len(cfg["header"]) - 1), "title")]]
+    lines = [[(cfg["header"] + " ", "text"), ("─" * (WIDTH - len(cfg["header"]) - 1), "rule")]]
     for i, section in enumerate(cfg["sections"]):
         rows = []
         for key, value in section["rows"]:
@@ -266,8 +266,7 @@ def render(lines, art, theme):
         "<style>@font-face{font-family:CardMono;src:url(data:font/woff2;base64,"
         + base64.b64encode(FONT_FILE.read_bytes()).decode() + ") format('woff2');}"
         "text, tspan { white-space: pre; }</style>",
-        f'<rect x="0.5" y="0.5" width="{width - 1:.0f}" height="{height - 1:.0f}" rx="14" '
-        f'fill="{c["bg"]}" stroke="{c["border"]}" stroke-opacity="0.55"/>',
+        # No frame and no background: the card sits directly on the GitHub page.
     ]
     for i, runs in enumerate(art["rows"]):
         segs = "".join(
@@ -277,7 +276,16 @@ def render(lines, art, theme):
                    f'fill="{c["text"]}">{segs or " "}</text>')
     for i, line in enumerate(lines):
         y = info_top + FONT_SIZE + i * info_lh
-        segs = "".join(f'<tspan fill="{c[role]}">{escape(text)}</tspan>' for text, role in line if text)
+        segs, col = "", 0
+        for text, role in line:
+            if role == "rule":
+                # A real 1px line (same weight as the README heading lines) instead of thick "─" glyphs.
+                x0 = info_x + (col + 0.5) * CHAR_W
+                out.append(f'<rect x="{x0:.1f}" y="{y - FONT_SIZE * 0.32:.1f}" width="{(len(text) - 0.5) * CHAR_W:.1f}" '
+                           f'height="1" fill="{c["title"]}" fill-opacity="0.75"/>')
+            elif text:
+                segs += f'<tspan fill="{c[role]}">{escape(text)}</tspan>'
+            col += len(text)
         out.append(f'<text x="{info_x:.1f}" y="{y:.1f}" fill="{c["text"]}">{segs or " "}</text>')
     out.append("</svg>")
     return "\n".join(out)
