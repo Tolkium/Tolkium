@@ -5,7 +5,7 @@
     {
       "title": null,
       "rows": [
-        ["OS", "Windows 11, Omarchy, Android 17"],
+        ["OS", "Windows 11, Omarchy, Android 17, CasaOS, Proxmox"],
         ["Uptime", "{account_age}"],
         ["Kernel", "Fullstack/IoT Developer"],
         ["IDE", "VSCode 1.141, PlatformIO, Claude Code"]
