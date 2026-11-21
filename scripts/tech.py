@@ -65,6 +65,15 @@ LABELS = {"Bash / Shell": "Bash", "Sass / SCSS": "Sass", ".NET / WPF": ".NET / W
           "PrusaSlicer / Cura": "PrusaSlicer", "Pandas / NumPy": "Pandas", "JetBrains IDEs": "JetBrains",
           "Microsoft Azure": "Azure", "Microsoft Teams": "Teams"}
 
+# Shown openly under "Core Stack"; everything else goes into the collapsible "Also worked with" block.
+CORE = [
+    "TypeScript", "JavaScript", "Python", "C", "C++", "C#",
+    "Angular", "Node.js", "SQLite", "Supabase",
+    "ESP32", "Arduino", "Raspberry Pi", "PlatformIO",
+    "Linux", "Proxmox", "Docker", "Nginx", "Cloudflare",
+    "Ollama", "PyTorch", "Git", "GitHub Actions", "Claude Code",
+]
+
 
 def selection():
     path = ROOT / "tech-checklist.md"
@@ -174,14 +183,15 @@ def slugify(name):
     return re.sub(r"[^a-z0-9]+", "-", key).strip("-")
 
 
-def render_tiles(items, icon=24, pad=3):
-    """One small linked image per technology (icon + transparent padding = the gap between icons)."""
+def render_tiles(items, core=CORE, icon=24, pad=3):
+    """One small linked image per technology (icon + transparent padding = the gap between icons).
+    Splits into an open Core Stack row and a collapsible 'Also worked with' section."""
     folder = OUT / "icons"
     folder.mkdir(exist_ok=True)
     for old in folder.glob("*.png"):
         old.unlink()
     size, step = icon * S, (icon + 2 * pad) * S
-    html = []
+    tags = {}
     for name in items:
         svg = svg_for(name)
         ic = raster(svg, size) if svg else tile(name, size)
@@ -202,9 +212,16 @@ def render_tiles(items, icon=24, pad=3):
                 (folder / f"{slug}-{theme}.png").write_bytes(data)
             img_html = (f'<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/tech/icons/{slug}-dark.png">'
                         f'<img src="./assets/tech/icons/{slug}-light.png" {attrs}></picture>')
-        html.append(f'<a href="{LINKS[name]}">{img_html}</a>')
+        tags[name] = f'<a href="{LINKS[name]}">{img_html}</a>'
     # No whitespace between tags: spaces would widen the gaps; the browser wraps the row by itself.
-    return "<p>\n" + "".join(html) + "\n</p>\n"
+    core_items = [n for n in core if n in tags]
+    core_set = set(core_items)
+    other_items = [n for n in items if n not in core_set]
+    out = "<p>\n" + "".join(tags[n] for n in core_items) + "\n</p>\n"
+    if other_items:
+        out += ("\n<details>\n<summary>Also worked with</summary>\n\n<p>\n"
+                + "".join(tags[n] for n in other_items) + "\n</p>\n</details>\n")
+    return out
 
 
 def main():

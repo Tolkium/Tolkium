@@ -219,8 +219,11 @@ def build_lines(cfg, stats):
     if stats:
         half = (WIDTH - 3) // 2
         lines += [[], rule("GitHub Stats")]
-        contrib = [(" {", "text"), ("Contributed", "key"), (": ", "text"), (f"{stats['contributed']:,}", "num"), ("}", "text")]
-        repos = kv("Repos", f"{stats['repos']:,}", half - _len(contrib), "num") + contrib
+        if stats.get("contributed"):
+            contrib = [(" {", "text"), ("Contributed", "key"), (": ", "text"), (f"{stats['contributed']:,}", "num"), ("}", "text")]
+            repos = kv("Repos", f"{stats['repos']:,}", half - _len(contrib), "num") + contrib
+        else:
+            repos = stat("Repos", stats["repos"], half)
         lines.append(repos + [(" | ", "dim")] + stat("Stars", stats["stars"], WIDTH - half - 1)[1:])
         commits = stat("Commits", stats["commits"], half)
         lines.append(commits + [(" | ", "dim")] + stat("Followers", stats["followers"], WIDTH - half - 1)[1:])
