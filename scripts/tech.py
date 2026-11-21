@@ -60,6 +60,7 @@ ICONS = {
     "Git": ("git", "git"), "GitHub": ("github", "github"), "GitHub Actions": ("githubactions", "githubactions"),
     "GitLab": ("gitlab", "gitlab"), "Slack": ("slack", "slack"), "Microsoft Teams": (None, None),
     "VS Code": ("vscode", None), "JetBrains IDEs": ("jetbrains", "jetbrains"), "Claude Code": (None, "claude"),
+    "T3 Code": (None, None),
 }
 LABELS = {"Bash / Shell": "Bash", "Sass / SCSS": "Sass", ".NET / WPF": ".NET / WPF",
           "PrusaSlicer / Cura": "PrusaSlicer", "Pandas / NumPy": "Pandas", "JetBrains IDEs": "JetBrains",
@@ -71,7 +72,7 @@ CORE = [
     "Angular", "Node.js", "SQLite", "Supabase",
     "ESP32", "Arduino", "Raspberry Pi", "PlatformIO",
     "Linux", "Proxmox", "Docker", "Nginx", "Cloudflare",
-    "Ollama", "PyTorch", "Git", "GitHub Actions", "Claude Code",
+    "Ollama", "PyTorch", "Git", "GitHub Actions", "Claude Code", "T3 Code",
 ]
 
 

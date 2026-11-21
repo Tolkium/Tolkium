@@ -87,4 +87,5 @@ LINKS = {
     "VS Code": "https://code.visualstudio.com/",
     "JetBrains IDEs": "https://www.jetbrains.com/",
     "Claude Code": "https://www.claude.com/product/claude-code",
+    "T3 Code": "https://t3.codes/",
 }
